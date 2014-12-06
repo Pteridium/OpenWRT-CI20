@@ -1,0 +1,1047 @@
+diff -urN a/arch/mips/jz4780/dts/ci20.dts b/arch/mips/jz4780/dts/ci20.dts
+--- a/arch/mips/jz4780/dts/ci20.dts	1970-01-01 01:00:00.000000000 +0100
++++ b/arch/mips/jz4780/dts/ci20.dts	2014-11-18 23:10:39.873577722 +0100
+@@ -0,0 +1,317 @@
++/*
++ * CI20 device tree
++ *
++ * Copyright (c) 2013 Imagination Technologies
++ * Author: Paul Burton <paul.burton@imgtec.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 of
++ * the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
++ * MA 02111-1307 USA
++ */
++
++/dts-v1/;
++
++#include <dt-bindings/gpio/gpio.h>
++
++#include "jz4780.dtsi"
++
++/ {
++	compatible = "img,ci20";
++
++	memory {
++		device_type = "memory";
++		reg = <0x0 0x10000000
++		       0x30000000 0x30000000>;
++	};
++
++	clocks {
++		extal: extal {
++			clock-frequency = <48000000>;
++		};
++	};
++
++	board {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		compatible = "simple-bus";
++		ranges = <>;
++
++		audio: audio-ci20 {
++			compatible = "ingenic,ci20-audio";
++			ingenic,i2s-controller = <&i2s>;
++			ingenic,codec = <&codec>;
++		};
++
++		ir: ir-receiver {
++			compatible = "gpio-ir-receiver";
++			gpios = <&gpe 3 GPIO_ACTIVE_LOW>;
++		};
++
++		eth0_power: fixedregulator@0 {
++			compatible = "regulator-fixed";
++			regulator-name = "eth0_power";
++			gpio = <&gpb 25 GPIO_ACTIVE_LOW>;
++			enable-active-high;
++		};
++
++		hdmi_power: fixedregulator@1 {
++			compatible = "regulator-fixed";
++			regulator-name = "hdmi_power";
++			gpio = <&gpa 25 GPIO_ACTIVE_LOW>;
++			enable-active-high;
++			regulator-always-on;
++		};
++
++		wifi_power: fixedregulator@2 {
++			compatible = "regulator-fixed";
++			regulator-name = "wifi_power_gpio";
++			gpio = <&gpb 19 0>;
++			enable-active-high;
++
++			regulator-min-microvolt = <3300000>;
++			regulator-max-microvolt = <3300000>;
++
++		};
++
++		wifi_reset: fixedregulator@3 {
++			compatible = "regulator-fixed";
++			regulator-name = "wifi_reset_gpio";
++			gpio = <&gpf 7 0>;
++			enable-active-high;
++			regulator-always-on;
++		};
++
++		/* HACK: Keeping BT reset high. No simple driver fix */
++		bt_reset: fixedregulator@4 {
++			compatible = "regulator-fixed";
++			regulator-name = "bt_reset_gpio";
++			gpio = <&gpf 8 0>;
++			enable-active-high;
++			regulator-always-on;
++		};
++
++		/* HACK: Keeping BT_reg_on high. No simple driver fix */
++		bt_reg_on: fixedregulator@5 {
++			compatible = "regulator-fixed";
++			regulator-name = "bt_reg_on_gpio";
++			gpio = <&gpf 4 0>;
++			enable-active-high;
++			regulator-always-on;
++		};
++
++		/* HACK: Keeping BT wake high. No simple driver fix */
++		bt_wake: fixedregulator@6 {
++			compatible = "regulator-fixed";
++			regulator-name = "bt_wake_gpio";
++			gpio = <&gpf 5 0>;
++			enable-active-high;
++			regulator-always-on;
++		};
++
++	};
++};
++
++&msc0 {
++	bus-width = <4>;
++	max-frequency = <48000000>;
++	cd-gpios = <&gpf 20 GPIO_ACTIVE_LOW>;
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pins_msc0_pe>;
++};
++
++&msc1 {
++	bus-width = <4>;
++	max-frequency = <24000000>;
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pins_msc1_pd>;
++	vmmc-supply = <&wifi_power>;
++};
++
++&ehci {
++	ingenic,vbus-gpio = <&gpf 15 0>;
++};
++
++&ohci {
++	ingenic,vbus-gpio = <&gpf 15 0>;
++};
++
++&nemc {
++	/*
++	 * Only CLE/ALE are needed for the devices that are connected, rather
++	 * than the full address line set.
++	 */
++	pinctrl-names = "default";
++	pinctrl-0 = <&pins_nemc_data &pins_nemc_cle_ale &pins_nemc_frd_fwe>;
++
++	nand: nand@1 {
++		compatible = "ingenic,jz4780-nand";
++		reg = <1 0 0x1000000>;
++
++		ingenic,nemc-tAS = <10>;
++		ingenic,nemc-tAH = <5>;
++		ingenic,nemc-tBP = <10>;
++		ingenic,nemc-tAW = <15>;
++		ingenic,nemc-tSTRV = <100>;
++
++		ingenic,bch-device = <&bch>;
++		ingenic,ecc-size = <1024>;
++		ingenic,ecc-strength = <24>;
++
++		ingenic,busy-gpio = <&gpa 20 GPIO_ACTIVE_LOW>;
++		ingenic,wp-gpio = <&gpf 22 GPIO_ACTIVE_LOW>;
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&pins_nemc_cs1>;
++
++		#address-cells = <2>;
++		#size-cells = <2>;
++
++		partition@0 {
++			label = "u-boot-spl";
++			reg = <0x0 0x0 0x0 0x800000>;
++		};
++
++		partition@0x800000 {
++			label = "u-boot";
++			reg = <0x0 0x800000 0x0 0x200000>;
++		};
++
++		partition@0xa00000 {
++			label = "u-boot-env";
++			reg = <0x0 0xa00000 0x0 0x200000>;
++		};
++
++		partition@0xc00000 {
++			label = "system";
++			reg = <0x0 0xc00000 0x1 0xff400000>;
++		};
++	};
++
++	dm9000@6 {
++		compatible = "davicom,dm9000";
++		davicom,no-eeprom;
++
++		reg = <6 0x0 1   /* addr */
++		       6 0x2 1>; /* data */
++
++		ingenic,nemc-tAS = <15>;
++		ingenic,nemc-tAH = <10>;
++		ingenic,nemc-tBP = <20>;
++		ingenic,nemc-tAW = <50>;
++		ingenic,nemc-tSTRV = <100>;
++
++		reset-gpio = <&gpf 12 GPIO_ACTIVE_LOW>;
++		vcc-supply = <&eth0_power>;
++
++		interrupt-parent = <&gpe>;
++		interrupts = <19 0x4>;
++	};
++};
++
++&i2c0 {
++	clock-frequency = <100000>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&pins_i2c0_data>;
++
++	pmic: act8600@5a {
++		compatible = "active-semi,act8600";
++		reg = <0x5a>;
++
++		regulators {
++			vcore1v_reg: DCDC_REG1 {
++				regulator-name = "vcore1v2";
++				regulator-min-microvolt = <1000000>;
++				regulator-max-microvolt = <1400000>;
++				regulator-always-on;
++			};
++
++			vddmem1v5_reg: DCDC_REG2 {
++				regulator-name = "vddmem1v5";
++				regulator-min-microvolt = <1500000>;
++				regulator-max-microvolt = <1500000>;
++				regulator-always-on;
++			};
++
++			vccio3v3_reg: DCDC_REG3 {
++				regulator-name = "vccio3v3";
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-always-on;
++			};
++
++			vcc2v5_reg: LDO_REG5 {
++				regulator-name = "vcc2.5";
++				regulator-min-microvolt = <2500000>;
++				regulator-max-microvolt = <2500000>;
++				regulator-always-on;
++			};
++
++			vwifi_reg: LDO_REG6 {
++				regulator-name = "vwifi3v3";
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++			};
++
++			vcim2v8_reg: LDO_REG7 {
++				regulator-name = "vcim2v8";
++				regulator-min-microvolt = <2800000>;
++				regulator-max-microvolt = <2800000>;
++			};
++
++			vcim1v5_reg: LDO_REG8 {
++				regulator-name = "vcim1v5";
++				regulator-min-microvolt = <1500000>;
++				regulator-max-microvolt = <1500000>;
++			};
++
++			/* Do not disable RTC as they connect to reset line */
++			vrtc1v8_reg: LDO_REG9 {
++				regulator-name = "vrtc1v8";
++				regulator-always-on;
++			};
++
++			vrtc1v1_reg: LDO_REG10 {
++				regulator-name = "vrtc1v2";
++				regulator-always-on;
++			};
++		};
++	};
++};
++
++&i2c1 {
++	clock-frequency = <100000>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&pins_i2c1_data>;
++};
++
++&i2c2 {
++	clock-frequency = <100000>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&pins_i2c2_data>;
++};
++
++&i2c3 {
++	clock-frequency = <100000>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&pins_i2c3_data>;
++};
++
++&i2c4 {
++	clock-frequency = <100000>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&pins_i2c4_data_pf>;
++};
+diff -urN a/arch/mips/jz4780/dts/jz4780.dtsi b/arch/mips/jz4780/dts/jz4780.dtsi
+--- a/arch/mips/jz4780/dts/jz4780.dtsi	1970-01-01 01:00:00.000000000 +0100
++++ b/arch/mips/jz4780/dts/jz4780.dtsi	2014-11-18 23:11:25.581848685 +0100
+@@ -0,0 +1,717 @@
++/*
++ * Ingenic JZ4780 device tree
++ *
++ * Copyright (c) 2013 Imagination Technologies
++ * Author: Paul Burton <paul.burton@imgtec.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 of
++ * the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
++ * MA 02111-1307 USA
++ */
++
++#include <dt-bindings/clock/jz4780-cgu.h>
++#include <dt-bindings/dma/jz4780-dma.h>
++
++/ {
++	#address-cells = <1>;
++	#size-cells = <1>;
++
++	aliases {
++		i2c0 = &i2c0;
++		i2c1 = &i2c1;
++		i2c2 = &i2c2;
++		i2c3 = &i2c3;
++		i2c4 = &i2c4;
++	};
++
++	clocks {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges = <>;
++
++		extal: extal {
++			compatible = "fixed-clock";
++			#clock-cells = <0>;
++			clock-output-names = "extal";
++		};
++	};
++
++	soc {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		compatible = "simple-bus";
++		ranges = <>;
++
++		cpus {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			cpu0: cpu@0 {
++				compatible = "ingenic,xburst";
++				reg = <0>;
++			};
++			cpu1: cpu@1 {
++				compatible = "ingenic,xburst";
++				reg = <1>;
++				clocks = <&cgu JZ4780_CLK_CORE1>;
++			};
++		};
++
++		cpuintc: cpuintc@0 {
++			#address-cells = <0>;
++			#interrupt-cells = <1>;
++			interrupt-controller;
++			compatible = "mti,cpu-interrupt-controller";
++		};
++
++		rtclk: rtclk {
++			compatible = "fixed-clock";
++			#clock-cells = <0>;
++			clock-frequency = <32768>;
++		};
++
++		cgu: jz4780-cgu@0x10000000 {
++			compatible = "ingenic,jz4780-cgu";
++			reg = <0x10000000 0xe0>;
++
++			clocks = <&extal>, <&rtclk>;
++			clock-names = "exclk", "rtclk";
++
++			#clock-cells = <1>;
++		};
++
++		apb {
++			compatible = "simple-bus";
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <>;
++
++			intc: intc@10001000 {
++				compatible = "ingenic,jz4780-intc";
++				reg = <0x10001000 0x50>;
++
++				interrupt-controller;
++				#interrupt-cells = <1>;
++
++				interrupt-parent = <&cpuintc>;
++				interrupts = <2>;
++			};
++
++			tcu@0x10002000 {
++				compatible = "ingenic,jz4780-tcu";
++				reg = <0x10002000 0x140>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <27 26 25>;
++			};
++
++			watchdog: jz47xx-watchdog@0x10002000 {
++				compatible = "ingenic,jz4780-watchdog";
++				reg = <0x10002000 0x100>;
++
++				clocks = <&rtclk>;
++				clock-names = "rtc";
++			};
++
++			rtc: rtc@10003000 {
++				compatible = "ingenic,jz4780-rtc";
++				reg = <0x10003000 0x4c>;
++				interrupt-parent = <&intc>;
++				interrupts = <32>;
++			};
++
++			i2s: i2s@10020000 {
++				compatible = "ingenic,jz4780-i2s";
++				reg = <0x10020000 0x94>;
++
++				clocks = <&cgu JZ4780_CLK_AIC>, <&cgu JZ4780_CLK_I2SPLL>;
++				clock-names = "aic", "i2s";
++
++				dmas = <&dma 0 JZ4780_DMA_I2S0_RX 0xffffffff>, <&dma JZ4780_DMA_I2S0_TX 0 0xffffffff>;
++				dma-names = "rx" , "tx";
++
++			};
++
++			codec: codec@100200a4 {
++				compatible = "ingenic,jz4780-codec";
++				reg = <0x100200a4 0x8>;
++
++				clocks = <&cgu JZ4780_CLK_I2SPLL>;
++				clock-names = "i2s";
++
++			};
++
++			pinctrl@0x10010000 {
++				compatible = "ingenic,jz4780-pinctrl";
++				reg = <0x10010000 0x600>;
++
++				gpa: gpa {
++					gpio-controller;
++					#gpio-cells = <2>;
++
++					interrupt-controller;
++					#interrupt-cells = <2>;
++
++					interrupt-parent = <&intc>;
++					interrupts = <17>;
++
++					ingenic,pull-ups = <0x3fffffff>;
++				};
++
++				gpb: gpb {
++					gpio-controller;
++					#gpio-cells = <2>;
++
++					interrupt-controller;
++					#interrupt-cells = <2>;
++
++					interrupt-parent = <&intc>;
++					interrupts = <16>;
++
++					ingenic,pull-downs = <0x000f0c03>;
++					ingenic,pull-ups   = <0xfff0030c>;
++				};
++
++				gpc: gpc {
++					gpio-controller;
++					#gpio-cells = <2>;
++
++					interrupt-controller;
++					#interrupt-cells = <2>;
++
++					interrupt-parent = <&intc>;
++					interrupts = <15>;
++
++					ingenic,pull-ups = <0xffffffff>;
++				};
++
++				gpd: gpd {
++					gpio-controller;
++					#gpio-cells = <2>;
++
++					interrupt-controller;
++					#interrupt-cells = <2>;
++
++					interrupt-parent = <&intc>;
++					interrupts = <14>;
++
++					ingenic,pull-downs = <0x0000b000>;
++					ingenic,pull-ups   = <0xffff4fff>;
++				};
++
++				gpe: gpe {
++					gpio-controller;
++					#gpio-cells = <2>;
++
++					interrupt-controller;
++					#interrupt-cells = <2>;
++
++					interrupt-parent = <&intc>;
++					interrupts = <13>;
++
++					ingenic,pull-downs = <0x00000483>;
++					ingenic,pull-ups   = <0xfffffb7c>;
++				};
++
++				gpf: gpf {
++					gpio-controller;
++					#gpio-cells = <2>;
++
++					interrupt-controller;
++					#interrupt-cells = <2>;
++
++					interrupt-parent = <&intc>;
++					interrupts = <12>;
++
++					ingenic,pull-downs = <0x00580ff0>;
++					ingenic,pull-ups   = <0xffa7f00f>;
++				};
++
++				pincfg_nobias: nobias {
++					bias-disable;
++				};
++
++				pincfg_pull_up: pull_up {
++					bias-pull-up;
++				};
++
++				pincfg_pull_down: pull_down {
++					bias-pull-down;
++				};
++
++				pinfunc_uart0: uart0 {
++					pins_uart0_data: uart0-data {
++						ingenic,pins = <&gpf  0 0 &pincfg_pull_up  /* rxd */
++								&gpf  3 0 &pincfg_nobias>; /* txd */
++					};
++
++					pins_uart0_dataplusflow: uart0-dataplusflow {
++						ingenic,pins = <&gpf  0 0 &pincfg_pull_up  /* rxd */
++								&gpf  1 0 &pincfg_nobias   /* cts */
++								&gpf  2 0 &pincfg_nobias   /* rts */
++								&gpf  3 0 &pincfg_nobias>; /* txd */
++					};
++				};
++
++				pinfunc_uart2: uart2 {
++					pins_uart2_data: uart2-data {
++						ingenic,pins = <&gpd  6 1 &pincfg_nobias  /* rxd */
++								&gpd  7 1 &pincfg_nobias>; /* txd */
++					};
++
++					pins_uart2_dataplusflow: uart2-dataplusflow {
++						ingenic,pins = <&gpd  6 1 &pincfg_nobias  /* rxd */
++								&gpd  5 1 &pincfg_nobias   /* cts */
++								&gpd  4 1 &pincfg_nobias   /* rts */
++								&gpd  7 1 &pincfg_nobias>; /* txd */
++					};
++				};
++
++				pinfunc_uart3: uart3 {
++					pins_uart3_data: uart3-data {
++						ingenic,pins = <&gpd 12 0 &pincfg_pull_down /* rxd */
++								&gpe  5 1 &pincfg_nobias>;  /* txd */
++					};
++
++					pins_uart3_dataplusflow: uart3-dataplusflow {
++						ingenic,pins = <&gpd 12 0 &pincfg_pull_down /* rxd */
++								&gpe  5 1 &pincfg_nobias    /* txd */
++								&gpe  8 0 &pincfg_nobias    /* cts */
++								&gpe  9 0 &pincfg_nobias>;  /* rts */
++					};
++				};
++
++				pinfunc_uart4: uart4 {
++					pins_uart4_data: uart4-data {
++						ingenic,pins = <&gpc 20 2 &pincfg_pull_up   /* rxd */
++								&gpc 10 2 &pincfg_nobias>;  /* txd */
++					};
++				};
++
++				pinfunc_msc0: msc0 {
++					pins_msc0_pa: msc0-pa {
++						ingenic,pins = <&gpa  4 1 &pincfg_nobias   /* d4 */
++								&gpa  5 1 &pincfg_nobias   /* d5 */
++								&gpa  6 1 &pincfg_nobias   /* d6 */
++								&gpa  7 1 &pincfg_nobias   /* d7 */
++								&gpa 18 1 &pincfg_nobias   /* clk */
++								&gpa 19 1 &pincfg_nobias   /* cmd */
++								&gpa 20 1 &pincfg_nobias   /* d0 */
++								&gpa 21 1 &pincfg_nobias   /* d1 */
++								&gpa 22 1 &pincfg_nobias   /* d2 */
++								&gpa 23 1 &pincfg_nobias   /* d3 */
++								&gpa 24 1 &pincfg_nobias>; /* rst */
++					};
++
++					pins_msc0_pe: msc0-pe {
++						ingenic,pins = <&gpe 20 0 &pincfg_nobias   /* d0 */
++								&gpe 21 0 &pincfg_nobias   /* d1 */
++								&gpe 22 0 &pincfg_nobias   /* d2 */
++								&gpe 23 0 &pincfg_nobias   /* d3 */
++								&gpe 28 0 &pincfg_nobias   /* clk */
++								&gpe 29 0 &pincfg_nobias>; /* cmd */
++					};
++				};
++
++				pinfunc_msc1: msc1 {
++					pins_msc1_pd: msc1-pd {
++						ingenic,pins = <&gpd 20 0 &pincfg_nobias   /* d0 */
++								&gpd 21 0 &pincfg_nobias   /* d1 */
++								&gpd 22 0 &pincfg_nobias   /* d2 */
++								&gpd 23 0 &pincfg_nobias   /* d3 */
++								&gpd 24 0 &pincfg_nobias   /* clk */
++								&gpd 25 0 &pincfg_nobias>; /* cmd */
++					};
++
++					pins_msc1_pe: msc1-pe {
++						ingenic,pins = <&gpe 20 1 &pincfg_nobias   /* d0 */
++								&gpe 21 1 &pincfg_nobias   /* d1 */
++								&gpe 22 1 &pincfg_nobias   /* d2 */
++								&gpe 23 1 &pincfg_nobias   /* d3 */
++								&gpe 28 1 &pincfg_nobias   /* clk */
++								&gpe 29 1 &pincfg_nobias>; /* cmd */
++					};
++				};
++
++				pinfunc_nemc: nemc {
++					pins_nemc_data: nemc-data {
++						ingenic,pins = <&gpa 0 0 &pincfg_nobias    /* sd0 */
++								&gpa 1 0 &pincfg_nobias    /* sd1 */
++								&gpa 2 0 &pincfg_nobias    /* sd2 */
++								&gpa 3 0 &pincfg_nobias    /* sd3 */
++								&gpa 4 0 &pincfg_nobias    /* sd4 */
++								&gpa 5 0 &pincfg_nobias    /* sd5 */
++								&gpa 6 0 &pincfg_nobias    /* sd6 */
++								&gpa 7 0 &pincfg_nobias>;  /* sd7 */
++					};
++
++					pins_nemc_cle_ale: nemc-cle-ale {
++						ingenic,pins = <&gpb 0 0 &pincfg_nobias    /* sa0_cl */
++								&gpb 1 0 &pincfg_nobias>;  /* sa1_al */
++					};
++
++					pins_nemc_addr: nemc-addr {
++						ingenic,pins = <&gpb 0 0 &pincfg_nobias    /* sa0_cl */
++								&gpb 1 0 &pincfg_nobias    /* sa1_al */
++								&gpb 2 0 &pincfg_nobias    /* sa2 */
++								&gpb 3 0 &pincfg_nobias    /* sa3 */
++								&gpb 4 0 &pincfg_nobias    /* sa4 */
++								&gpb 5 0 &pincfg_nobias>;  /* sa5 */
++					};
++
++					pins_nemc_rd_we: nemc-rd-we {
++						ingenic,pins = <&gpa 16 0 &pincfg_nobias   /* rd */
++								&gpa 17 0 &pincfg_nobias>; /* we */
++					};
++
++					pins_nemc_frd_fwe: nemc-frd-fwe {
++						ingenic,pins = <&gpa 18 0 &pincfg_nobias   /* rd */
++								&gpa 19 0 &pincfg_nobias>; /* we */
++					};
++
++					pins_nemc_cs1: nemc-cs1 {
++						ingenic,pins = <&gpa 21 0 &pincfg_nobias>; /* cs1 */
++					};
++				};
++
++				pinfunc_i2c0: i2c0 {
++					pins_i2c0_data: i2c0-data{
++						ingenic,pins = <&gpd  30 0 &pincfg_nobias  /* sda */
++								&gpd  31 0 &pincfg_nobias>; /* sck */
++					};
++				};
++
++				pinfunc_i2c1: i2c1 {
++					pins_i2c1_data: i2c1-data{
++						ingenic,pins = <&gpe  30 0 &pincfg_nobias  /* sda */
++								&gpe  31 0 &pincfg_nobias>; /* sck */
++					};
++				};
++
++				pinfunc_i2c2: i2c2 {
++					pins_i2c2_data: i2c2-data{
++						ingenic,pins = <&gpf  16 2 &pincfg_nobias  /* sda */
++								&gpf  17 2 &pincfg_nobias>; /* sck */
++					};
++				};
++
++				pinfunc_i2c3: i2c3 {
++					pins_i2c3_data: i2c3-data{
++						ingenic,pins = <&gpd  10 1 &pincfg_nobias  /* sda */
++								&gpd  11 1 &pincfg_nobias>; /* sck */
++					};
++				};
++
++				pinfunc_i2c4: i2c4 {
++					pins_i2c4_data_pe: i2c4-data-pe{
++						ingenic,pins = <&gpe  12 1 &pincfg_nobias  /* sda */
++								&gpe  13 1 &pincfg_nobias>; /* sck */
++					};
++
++					pins_i2c4_data_pf: i2c4-data-pf{
++						ingenic,pins = <&gpf 25 1 &pincfg_nobias /* sda */
++								&gpf 24 1 &pincfg_nobias>; /* sck */
++					};
++				};
++			};
++
++			uart0: serial@10030000 {
++				compatible = "ingenic,jz-uart";
++				reg = <0x10030000 0x100>;
++				reg-shift = <2>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <51>;
++
++				clocks = <&cgu JZ4780_CLK_UART0>;
++
++				pinctrl-names = "default";
++				pinctrl-0 = <&pins_uart0_data>;
++			};
++
++			uart1: serial@10031000 {
++				compatible = "ingenic,jz-uart";
++				reg = <0x10031000 0x100>;
++				reg-shift = <2>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <50>;
++
++				clocks = <&cgu JZ4780_CLK_UART1>;
++			};
++
++			uart2: serial@10032000 {
++				compatible = "ingenic,jz-uart";
++				reg = <0x10032000 0x100>;
++				reg-shift = <2>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <49>;
++
++				clocks = <&cgu JZ4780_CLK_UART2>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pins_uart2_dataplusflow>;
++			};
++
++			uart3: serial@10033000 {
++				compatible = "ingenic,jz-uart";
++				reg = <0x10033000 0x100>;
++				reg-shift = <2>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <48>;
++
++				clocks = <&cgu JZ4780_CLK_UART3>;
++
++				pinctrl-names = "default";
++				pinctrl-0 = <&pins_uart3_data>;
++			};
++
++			uart4: serial@10034000 {
++				compatible = "ingenic,jz-uart";
++				reg = <0x10034000 0x100>;
++				reg-shift = <2>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <34>;
++
++				clocks = <&cgu JZ4780_CLK_UART4>;
++
++				pinctrl-names = "default";
++				pinctrl-0 = <&pins_uart4_data>;
++			};
++
++			i2c0: i2c0@0x10050000 {
++				compatible = "ingenic,jz4780-i2c";
++				reg = <0x10050000 0x1000>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <60>;
++
++				clocks = <&cgu JZ4780_CLK_SMB0>;
++
++				#address-cells = <1>;
++				#size-cells = <0>;
++			};
++
++			i2c1: i2c1@0x10051000 {
++				compatible = "ingenic,jz4780-i2c";
++				reg = <0x10051000 0x1000>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <59>;
++
++				clocks = <&cgu JZ4780_CLK_SMB1>;
++
++				#address-cells = <1>;
++				#size-cells = <0>;
++			};
++
++			i2c2: i2c2@0x10052000 {
++				compatible = "ingenic,jz4780-i2c";
++				reg = <0x10052000 0x1000>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <58>;
++
++				clocks = <&cgu JZ4780_CLK_SMB2>;
++
++				#address-cells = <1>;
++				#size-cells = <0>;
++			};
++
++			i2c3: i2c3@0x10053000 {
++				compatible = "ingenic,jz4780-i2c";
++				reg = <0x10053000 0x1000>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <57>;
++
++				clocks = <&cgu JZ4780_CLK_SMB3>;
++
++				#address-cells = <1>;
++				#size-cells = <0>;
++			};
++
++			lcd: jz4780-lcdk@0x13050000 {
++				compatible = "ingenic,jz4780-lcd";
++				reg = <0x13050000 0x1800>;
++
++				clocks = <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD0PIXCLK>;
++				clock-names = "lcd_clk", "lcd_pixclk";
++
++				interrupt-parent = <&intc>;
++				interrupts = <31>;
++
++				hdmi = <&hdmi>;
++				ddc = <&i2c4>;
++			};
++
++			hdmi: jz4780-hdmi3@0x10180000 {
++				compatible = "synopsys,dwc-hdmi";
++				reg = <0x10180000 0x8000>;
++				reg-shift = <2>;
++
++				clocks = <&cgu JZ4780_CLK_HDMI>, <&cgu JZ4780_CLK_AHB0>;
++				clock-names = "hdmi" , "ahb";
++
++				clock-frequency = <27000000>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <3>;
++
++				ddc = <&i2c4>;
++			};
++
++			i2c4: i2c4@0x10054000 {
++				compatible = "ingenic,jz4780-i2c";
++				reg = <0x10054000 0x1000>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <56>;
++
++				clocks = <&cgu JZ4780_CLK_SMB4>;
++
++				#address-cells = <1>;
++				#size-cells = <0>;
++			};
++
++			adc@0x10070000 {
++				compatible = "ingenic,jz4780-adc";
++				reg = <0x10070000 0x30>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <18>;
++
++				clocks = <&cgu JZ4780_CLK_SADC>;
++				clock-names = "adc";
++			};
++
++		};
++
++		ahb2 {
++			compatible = "simple-bus";
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <>;
++
++			nemc: nemc@13410000 {
++				compatible = "ingenic,jz4780-nemc";
++				reg = <0x13410000 0x10000>;
++				#address-cells = <2>;
++				#size-cells = <1>;
++				ranges = <1 0 0x1b000000 0x1000000
++				          2 0 0x1a000000 0x1000000
++				          3 0 0x19000000 0x1000000
++				          4 0 0x18000000 0x1000000
++				          5 0 0x17000000 0x1000000
++				          6 0 0x16000000 0x1000000>;
++
++				clocks = <&cgu JZ4780_CLK_NEMC>;
++			};
++
++			efuse: efuse@134100D0 {
++				compatible = "ingenic,jz4780-efuse";
++				reg = <0x134100D0 0xFF>;
++
++				vddq-gpio = <&gpe 4 GPIO_ACTIVE_LOW>;
++
++				clocks = <&cgu JZ4780_CLK_AHB2>;
++				clock-names = "ahb2";
++			};
++
++			dma: dma@13420000 {
++				compatible = "ingenic,jz4780-dma";
++				reg = <0x13420000 0x10000>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <10>;
++
++				clocks = <&cgu JZ4780_CLK_PDMA>;
++
++				#dma-cells = <3>;
++			};
++
++			msc0: msc@13450000 {
++				compatible = "ingenic,jz4780-mmc";
++				reg = <0x13450000 0x1000>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <37>;
++
++				clocks = <&cgu JZ4780_CLK_MSC0>;
++
++				cap-sd-highspeed;
++				cap-mmc-highspeed;
++
++				dmas = <&dma JZ4780_DMA_MSC0_TX JZ4780_DMA_MSC0_RX 0xffffffff>;
++				dma-names = "rx-tx";
++			};
++
++			msc1: msc@13460000 {
++				compatible = "ingenic,jz4780-mmc";
++				reg = <0x13460000 0x1000>;
++
++				status = "disabled";
++
++				interrupt-parent = <&intc>;
++				interrupts = <36>;
++
++				clocks = <&cgu JZ4780_CLK_MSC1>;
++				dmas = <&dma JZ4780_DMA_MSC1_TX JZ4780_DMA_MSC1_RX 0xffffffff>;
++				dma-names = "rx-tx";
++
++			};
++
++			ehci: jz4780-ehci@0x13490000 {
++				compatible = "ingenic,jz4780-ehci";
++				reg = <0x13490000 0x10000>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <20>;
++
++				clocks = <&cgu JZ4780_CLK_UHC>;
++			};
++
++			ohci: jz4780-ohci@0x134a0000 {
++				compatible = "ingenic,jz4780-ohci";
++				reg = <0x134a0000 0x10000>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <5>;
++
++				clocks = <&cgu JZ4780_CLK_UHC>;
++				clock-names = "uhc";
++			};
++
++			bch: bch@134d0000 {
++				compatible = "ingenic,jz4780-bch";
++				reg = <0x134d0000 0x10000>;
++
++				clocks = <&cgu JZ4780_CLK_BCH>;
++			};
++
++			otg: jz4780-otg@0x13500000 {
++				compatible = "ingenic,jz4780-otg";
++				reg = <0x13500000 0x40000>;
++
++				interrupt-parent = <&intc>;
++				interrupts = <21>;
++
++				clocks = <&cgu JZ4780_CLK_OTGPHY>, <&cgu JZ4780_CLK_OTG1>;
++				clock-names = "otg_phy", "otg1";
++			};
++		};
++	};
++};
+diff -urN a/arch/mips/jz4780/dts/Makefile b/arch/mips/jz4780/dts/Makefile
+--- a/arch/mips/jz4780/dts/Makefile	1970-01-01 01:00:00.000000000 +0100
++++ b/arch/mips/jz4780/dts/Makefile	2014-11-18 19:24:06.442229813 +0100
+@@ -0,0 +1 @@
++obj-$(CONFIG_JZ4780_CI20)    := ci20.dtb.o
