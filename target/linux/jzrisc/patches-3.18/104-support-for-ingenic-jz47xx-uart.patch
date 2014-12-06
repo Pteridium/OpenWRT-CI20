@@ -1,0 +1,113 @@
+diff -urN a/drivers/tty/serial/8250/8250_core.c b/drivers/tty/serial/8250/8250_core.c
+--- a/drivers/tty/serial/8250/8250_core.c	2014-11-18 19:15:15.000000000 +0100
++++ b/drivers/tty/serial/8250/8250_core.c	2014-11-18 22:16:39.803463822 +0100
+@@ -48,6 +48,11 @@
+ 
+ #include "8250.h"
+ 
++#ifdef CONFIG_MACH_JZ4780
++#define JZ_UART_MCR_MDCE		0x80 /* Enable modem function */
++#define JZ_UART_MCR_FCM		0x40 /* flow control by hardware */
++#endif
++
+ /*
+  * Configuration:
+  *   share_irqs - whether we pass IRQF_SHARED to request_irq().  This option
+@@ -329,6 +334,13 @@
+ 		.fcr		= UART_FCR_ENABLE_FIFO | UART_FCR_R_TRIG_10,
+ 		.flags		= UART_CAP_FIFO | UART_CAP_AFE,
+ 	},
++	[PORT_INGENIC_JZ] = {
++		.name		= "Ingenic JZ UART",
++		.fifo_size	= 64,
++		.tx_loadsz	= 32,
++		.fcr		= UART_FCR_ENABLE_FIFO | UART_FCR_R_TRIG_10,
++		.flags		= UART_CAP_FIFO | UART_CAP_RTOIE,
++	},
+ };
+ 
+ /* Uart divisor latch read */
+@@ -440,6 +452,20 @@
+ 	outb(value, p->iobase + offset);
+ }
+ 
++static void jz_serial_out(struct uart_port *p, int offset, int value)
++{
++	switch (offset) {
++	case UART_FCR:
++		value |= 0x10; /* Enable uart module */
++		break;
++	default:
++		break;
++	}
++
++	offset = offset << p->regshift;
++	writeb(value, p->membase + offset);
++}
++
+ static int serial8250_default_handle_irq(struct uart_port *port);
+ static int exar_handle_irq(struct uart_port *port);
+ 
+@@ -458,7 +484,10 @@
+ 
+ 	case UPIO_MEM:
+ 		p->serial_in = mem_serial_in;
+-		p->serial_out = mem_serial_out;
++		if (p->type == PORT_INGENIC_JZ)
++			p->serial_out = jz_serial_out;
++		else
++			p->serial_out = mem_serial_out;
+ 		break;
+ 
+ 	case UPIO_MEM32:
+@@ -1921,6 +1950,13 @@
+ 	if (mctrl & TIOCM_LOOP)
+ 		mcr |= UART_MCR_LOOP;
+ 
++	if (port->type == PORT_INGENIC_JZ) {
++		if (mctrl & JZ_UART_MCR_MDCE)
++			mcr |= JZ_UART_MCR_MDCE;
++		if (mctrl & JZ_UART_MCR_FCM)
++			mcr |= JZ_UART_MCR_FCM;
++	}
++
+ 	mcr = (mcr & up->mcr_mask) | up->mcr_force | up->mcr;
+ 
+ 	serial_port_out(port, UART_MCR, mcr);
+@@ -2503,8 +2539,11 @@
+ 	 */
+ 	up->ier &= ~UART_IER_MSI;
+ 	if (!(up->bugs & UART_BUG_NOMSR) &&
+-			UART_ENABLE_MS(&up->port, termios->c_cflag))
++			UART_ENABLE_MS(&up->port, termios->c_cflag)) {
+ 		up->ier |= UART_IER_MSI;
++		if (port->type == PORT_INGENIC_JZ)
++			up->port.mctrl = JZ_UART_MCR_MDCE | JZ_UART_MCR_FCM;
++	}
+ 	if (up->capabilities & UART_CAP_UUE)
+ 		up->ier |= UART_IER_UUE;
+ 	if (up->capabilities & UART_CAP_RTOIE)
+diff -urN a/drivers/tty/serial/of_serial.c b/drivers/tty/serial/of_serial.c
+--- a/drivers/tty/serial/of_serial.c	2014-11-09 23:55:29.000000000 +0100
++++ b/drivers/tty/serial/of_serial.c	2014-11-18 22:10:26.622263802 +0100
+@@ -288,6 +288,7 @@
+ 	{ .compatible = "ibm,qpace-nwp-serial",
+ 		.data = (void *)PORT_NWPSERIAL, },
+ #endif
++	{ .compatible = "ingenic,jz-uart", .data = (void *)PORT_INGENIC_JZ, },
+ 	{ .type = "serial",         .data = (void *)PORT_UNKNOWN, },
+ 	{ /* end of list */ },
+ };
+diff -urN a/include/uapi/linux/serial_core.h b/include/uapi/linux/serial_core.h
+--- a/include/uapi/linux/serial_core.h	2014-11-09 23:55:29.000000000 +0100
++++ b/include/uapi/linux/serial_core.h	2014-11-18 22:10:26.622263802 +0100
+@@ -54,7 +54,8 @@
+ #define PORT_ALTR_16550_F32 26	/* Altera 16550 UART with 32 FIFOs */
+ #define PORT_ALTR_16550_F64 27	/* Altera 16550 UART with 64 FIFOs */
+ #define PORT_ALTR_16550_F128 28 /* Altera 16550 UART with 128 FIFOs */
+-#define PORT_MAX_8250	28	/* max port ID */
++#define PORT_INGENIC_JZ 29
++#define PORT_MAX_8250	29	/* max port ID */
+ 
+ /*
+  * ARM specific type numbers.  These are not currently guaranteed
