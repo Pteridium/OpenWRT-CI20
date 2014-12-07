@@ -9,21 +9,22 @@ Working:
 - NEMC (nand and external memory controller).
 - Davicom DM9000 ethernet.
 - TCU and CGU.
-- EHCI and OHCI usb port.
+- EHCI and OHCI usb port. OHCI HCD interferes with EHCI, so for now is better to not include it.
 - RTC controller.
 - ACT8600 power regulator.
 - I2c bus.
 
 Not workinkg:
-- OTG USB driver.
-- MMC driver.
-- Wifi (brcmfmac): due to the problems with the MMC driver.
+- OTG USB driver (it crash when is loaded).
+- MMC driver (sometimes work but others not, causing a hang).
+- Wifi (brcmfmac): do not work as expected.
 
 To be added:
-- NAND driver.
-- Audio driver.
+- Audio subsystem.
 - Bluetooth.
-- Framebuffer and HDMI.
+- ADC.
+- PWM.
+- Code to show the CPU, L2CACHE, DDR and AHB clocks at bootup like kernel 3.0.8 does.
 
 How to boot the MIPS Creator CI20 with OpenWRT (for now):
 - 1. Make a bootable memory card with an ext4 partition.
