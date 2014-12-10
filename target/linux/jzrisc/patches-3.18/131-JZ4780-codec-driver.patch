@@ -1,6 +1,5 @@
-diff -urN a/sound/soc/codecs/jz4780.c b/sound/soc/codecs/jz4780.c
---- a/sound/soc/codecs/jz4780.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/sound/soc/codecs/jz4780.c	2014-12-09 14:38:16.542038712 +0100
+--- /dev/null
++++ b/sound/soc/codecs/jz4780.c
 @@ -0,0 +1,585 @@
 +/*
 + * Ingenic JZ4780 ASoC codec driver
@@ -587,10 +586,9 @@ diff -urN a/sound/soc/codecs/jz4780.c b/sound/soc/codecs/jz4780.c
 +MODULE_AUTHOR("Paul Burton <paul.burton@imgtec.com>");
 +MODULE_DESCRIPTION("Ingenic JZ4780 ASoC codec driver");
 +MODULE_LICENSE("GPL");
-diff -urN a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
---- a/sound/soc/codecs/Kconfig	2014-12-01 01:42:27.000000000 +0100
-+++ b/sound/soc/codecs/Kconfig	2014-12-09 14:35:20.097397299 +0100
-@@ -63,6 +63,7 @@
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -63,6 +63,7 @@ config SND_SOC_ALL_CODECS
  	select SND_SOC_ES8328_I2C if I2C
  	select SND_SOC_ISABELLE if I2C
  	select SND_SOC_JZ4740_CODEC
@@ -598,7 +596,7 @@ diff -urN a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
  	select SND_SOC_LM4857 if I2C
  	select SND_SOC_LM49453 if I2C
  	select SND_SOC_MAX98088 if I2C
-@@ -390,6 +391,9 @@
+@@ -390,6 +391,9 @@ config SND_SOC_JZ4740_CODEC
  	select REGMAP_MMIO
  	tristate
  
@@ -608,10 +606,9 @@ diff -urN a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
  config SND_SOC_L3
         tristate
  
-diff -urN a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
---- a/sound/soc/codecs/Makefile	2014-12-01 01:42:27.000000000 +0100
-+++ b/sound/soc/codecs/Makefile	2014-12-09 14:36:08.485573029 +0100
-@@ -55,6 +55,7 @@
+--- a/sound/soc/codecs/Makefile
++++ b/sound/soc/codecs/Makefile
+@@ -55,6 +55,7 @@ snd-soc-es8328-i2c-objs := es8328-i2c.o
  snd-soc-es8328-spi-objs := es8328-spi.o
  snd-soc-isabelle-objs := isabelle.o
  snd-soc-jz4740-codec-objs := jz4740.o

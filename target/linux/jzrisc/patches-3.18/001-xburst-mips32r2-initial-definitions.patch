@@ -26,7 +26,7 @@
  #ifdef CONFIG_SYS_HAS_CPU_MIPS32_R2
 --- a/arch/mips/kernel/cpu-probe.c
 +++ b/arch/mips/kernel/cpu-probe.c
-@@ -1218,6 +1218,7 @@ void cpu_probe(void)
+@@ -1252,6 +1252,7 @@ void cpu_probe(void)
  		cpu_probe_cavium(c, cpu);
  		break;
  	case PRID_COMP_INGENIC:

@@ -1,6 +1,5 @@
-diff -urN a/drivers/net/ethernet/davicom/dm9000.c b/drivers/net/ethernet/davicom/dm9000.c
---- a/drivers/net/ethernet/davicom/dm9000.c	2014-11-09 23:55:29.000000000 +0100
-+++ b/drivers/net/ethernet/davicom/dm9000.c	2014-11-19 13:29:06.981297438 +0100
+--- a/drivers/net/ethernet/davicom/dm9000.c
++++ b/drivers/net/ethernet/davicom/dm9000.c
 @@ -36,6 +36,9 @@
  #include <linux/platform_device.h>
  #include <linux/irq.h>
@@ -11,7 +10,7 @@ diff -urN a/drivers/net/ethernet/davicom/dm9000.c b/drivers/net/ethernet/davicom
  
  #include <asm/delay.h>
  #include <asm/irq.h>
-@@ -1426,11 +1429,41 @@
+@@ -1426,11 +1429,41 @@ dm9000_probe(struct platform_device *pde
  	struct dm9000_plat_data *pdata = dev_get_platdata(&pdev->dev);
  	struct board_info *db;	/* Point a board information structure */
  	struct net_device *ndev;

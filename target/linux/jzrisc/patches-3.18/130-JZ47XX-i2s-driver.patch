@@ -1,6 +1,5 @@
-diff -urN a/sound/soc/jz4740/jz4740-i2s.c b/sound/soc/jz4740/jz4740-i2s.c
---- a/sound/soc/jz4740/jz4740-i2s.c	2014-12-01 01:42:27.000000000 +0100
-+++ b/sound/soc/jz4740/jz4740-i2s.c	2014-12-08 12:49:37.936424776 +0100
+--- a/sound/soc/jz4740/jz4740-i2s.c
++++ b/sound/soc/jz4740/jz4740-i2s.c
 @@ -14,6 +14,8 @@
  
  #include <linux/init.h>
@@ -46,7 +45,7 @@ diff -urN a/sound/soc/jz4740/jz4740-i2s.c b/sound/soc/jz4740/jz4740-i2s.c
  
  struct jz4740_i2s {
  	struct resource *mem;
-@@ -94,6 +112,8 @@
+@@ -94,6 +112,8 @@ struct jz4740_i2s {
  
  	struct snd_dmaengine_dai_dma_data playback_dma_data;
  	struct snd_dmaengine_dai_dma_data capture_dma_data;
@@ -55,7 +54,7 @@ diff -urN a/sound/soc/jz4740/jz4740-i2s.c b/sound/soc/jz4740/jz4740-i2s.c
  };
  
  static inline uint32_t jz4740_i2s_read(const struct jz4740_i2s *i2s,
-@@ -237,10 +257,14 @@
+@@ -237,10 +257,14 @@ static int jz4740_i2s_hw_params(struct s
  {
  	struct jz4740_i2s *i2s = snd_soc_dai_get_drvdata(dai);
  	unsigned int sample_size;
@@ -71,7 +70,7 @@ diff -urN a/sound/soc/jz4740/jz4740-i2s.c b/sound/soc/jz4740/jz4740-i2s.c
  	switch (params_format(params)) {
  	case SNDRV_PCM_FORMAT_S8:
  		sample_size = 0;
-@@ -259,12 +283,26 @@
+@@ -259,12 +283,26 @@ static int jz4740_i2s_hw_params(struct s
  			ctrl |= JZ_AIC_CTRL_MONO_TO_STEREO;
  		else
  			ctrl &= ~JZ_AIC_CTRL_MONO_TO_STEREO;
@@ -98,7 +97,7 @@ diff -urN a/sound/soc/jz4740/jz4740-i2s.c b/sound/soc/jz4740/jz4740-i2s.c
  
  	return 0;
  }
-@@ -350,7 +388,7 @@
+@@ -350,7 +388,7 @@ static void jz4740_i2c_init_pcm_config(s
  static int jz4740_i2s_dai_probe(struct snd_soc_dai *dai)
  {
  	struct jz4740_i2s *i2s = snd_soc_dai_get_drvdata(dai);
@@ -107,7 +106,7 @@ diff -urN a/sound/soc/jz4740/jz4740-i2s.c b/sound/soc/jz4740/jz4740-i2s.c
  
  	clk_prepare_enable(i2s->clk_aic);
  
-@@ -358,11 +396,28 @@
+@@ -358,11 +396,28 @@ static int jz4740_i2s_dai_probe(struct s
  	snd_soc_dai_init_dma_data(dai, &i2s->playback_dma_data,
  		&i2s->capture_dma_data);
  
@@ -141,7 +140,7 @@ diff -urN a/sound/soc/jz4740/jz4740-i2s.c b/sound/soc/jz4740/jz4740-i2s.c
  
  	jz4740_i2s_write(i2s, JZ_REG_AIC_CONF, JZ_AIC_CONF_RESET);
  	jz4740_i2s_write(i2s, JZ_REG_AIC_CONF, conf);
-@@ -415,16 +470,27 @@
+@@ -415,16 +470,27 @@ static const struct snd_soc_component_dr
  	.name		= "jz4740-i2s",
  };
  
@@ -169,7 +168,7 @@ diff -urN a/sound/soc/jz4740/jz4740-i2s.c b/sound/soc/jz4740/jz4740-i2s.c
  	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
  	i2s->base = devm_ioremap_resource(&pdev->dev, mem);
  	if (IS_ERR(i2s->base))
-@@ -447,8 +513,12 @@
+@@ -447,8 +513,12 @@ static int jz4740_i2s_dev_probe(struct p
  	if (ret)
  		return ret;
  
@@ -184,7 +183,7 @@ diff -urN a/sound/soc/jz4740/jz4740-i2s.c b/sound/soc/jz4740/jz4740-i2s.c
  }
  
  static struct platform_driver jz4740_i2s_driver = {
-@@ -456,6 +526,7 @@
+@@ -456,6 +526,7 @@ static struct platform_driver jz4740_i2s
  	.driver = {
  		.name = "jz4740-i2s",
  		.owner = THIS_MODULE,
@@ -192,9 +191,8 @@ diff -urN a/sound/soc/jz4740/jz4740-i2s.c b/sound/soc/jz4740/jz4740-i2s.c
  	},
  };
  
-diff -urN a/sound/soc/jz4740/Kconfig b/sound/soc/jz4740/Kconfig
---- a/sound/soc/jz4740/Kconfig	2014-12-01 01:42:27.000000000 +0100
-+++ b/sound/soc/jz4740/Kconfig	2014-12-07 19:35:00.083350476 +0100
+--- a/sound/soc/jz4740/Kconfig
++++ b/sound/soc/jz4740/Kconfig
 @@ -1,6 +1,6 @@
  config SND_JZ4740_SOC
  	tristate "SoC Audio for Ingenic JZ4740 SoC"

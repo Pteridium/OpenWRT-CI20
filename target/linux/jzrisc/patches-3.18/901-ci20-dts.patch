@@ -1,6 +1,5 @@
-diff -urN a/arch/mips/jz4780/dts/ci20.dts b/arch/mips/jz4780/dts/ci20.dts
---- a/arch/mips/jz4780/dts/ci20.dts	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/jz4780/dts/ci20.dts	2014-11-18 23:10:39.873577722 +0100
+--- /dev/null
++++ b/arch/mips/jz4780/dts/ci20.dts
 @@ -0,0 +1,317 @@
 +/*
 + * CI20 device tree
@@ -319,9 +318,8 @@ diff -urN a/arch/mips/jz4780/dts/ci20.dts b/arch/mips/jz4780/dts/ci20.dts
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&pins_i2c4_data_pf>;
 +};
-diff -urN a/arch/mips/jz4780/dts/jz4780.dtsi b/arch/mips/jz4780/dts/jz4780.dtsi
---- a/arch/mips/jz4780/dts/jz4780.dtsi	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/jz4780/dts/jz4780.dtsi	2014-11-18 23:11:25.581848685 +0100
+--- /dev/null
++++ b/arch/mips/jz4780/dts/jz4780.dtsi
 @@ -0,0 +1,717 @@
 +/*
 + * Ingenic JZ4780 device tree
@@ -1040,8 +1038,7 @@ diff -urN a/arch/mips/jz4780/dts/jz4780.dtsi b/arch/mips/jz4780/dts/jz4780.dtsi
 +		};
 +	};
 +};
-diff -urN a/arch/mips/jz4780/dts/Makefile b/arch/mips/jz4780/dts/Makefile
---- a/arch/mips/jz4780/dts/Makefile	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/jz4780/dts/Makefile	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/jz4780/dts/Makefile
 @@ -0,0 +1 @@
 +obj-$(CONFIG_JZ4780_CI20)    := ci20.dtb.o

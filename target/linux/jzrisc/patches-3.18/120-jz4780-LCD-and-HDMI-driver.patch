@@ -1,6 +1,5 @@
-diff -urN a/drivers/gpu/drm/jz4780/dwc_hdmi.c b/drivers/gpu/drm/jz4780/dwc_hdmi.c
---- a/drivers/gpu/drm/jz4780/dwc_hdmi.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/drivers/gpu/drm/jz4780/dwc_hdmi.c	2014-11-26 11:42:57.385745433 +0100
+--- /dev/null
++++ b/drivers/gpu/drm/jz4780/dwc_hdmi.c
 @@ -0,0 +1,1827 @@
 +/*
 + * Copyright (C) 2010, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
@@ -1829,9 +1828,8 @@ diff -urN a/drivers/gpu/drm/jz4780/dwc_hdmi.c b/drivers/gpu/drm/jz4780/dwc_hdmi.
 +MODULE_DESCRIPTION("i.MX6 HDMI transmitter driver");
 +MODULE_LICENSE("GPL");
 +MODULE_ALIAS("platform:dwc-hdmi");
-diff -urN a/drivers/gpu/drm/jz4780/dwc_hdmi.h b/drivers/gpu/drm/jz4780/dwc_hdmi.h
---- a/drivers/gpu/drm/jz4780/dwc_hdmi.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/drivers/gpu/drm/jz4780/dwc_hdmi.h	2014-11-26 11:45:40.875662171 +0100
+--- /dev/null
++++ b/drivers/gpu/drm/jz4780/dwc_hdmi.h
 @@ -0,0 +1,93 @@
 +/*
 + * Copyright (C) 2011 Freescale Semiconductor, Inc.
@@ -1926,9 +1924,8 @@ diff -urN a/drivers/gpu/drm/jz4780/dwc_hdmi.h b/drivers/gpu/drm/jz4780/dwc_hdmi.
 +void dwc_hdmi_register(struct dwc_hdmi *hdmi, struct drm_device *dev);
 +
 +#endif /* __DWC_HDMI_H__ */
-diff -urN a/drivers/gpu/drm/jz4780/dwc_hdmi_regs.h b/drivers/gpu/drm/jz4780/dwc_hdmi_regs.h
---- a/drivers/gpu/drm/jz4780/dwc_hdmi_regs.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/drivers/gpu/drm/jz4780/dwc_hdmi_regs.h	2014-11-26 11:47:02.581023931 +0100
+--- /dev/null
++++ b/drivers/gpu/drm/jz4780/dwc_hdmi_regs.h
 @@ -0,0 +1,1032 @@
 +/*
 + * Copyright (C) 2011 Freescale Semiconductor, Inc.
@@ -2962,9 +2959,8 @@ diff -urN a/drivers/gpu/drm/jz4780/dwc_hdmi_regs.h b/drivers/gpu/drm/jz4780/dwc_
 +	HDMI_A_VIDPOLCFG_HSYNCPOL_ACTIVE_LOW = 0x0,
 +};
 +#endif /* __DWC_HDMI_REGS_H__ */
-diff -urN a/drivers/gpu/drm/jz4780/jz4780_crtc.c b/drivers/gpu/drm/jz4780/jz4780_crtc.c
---- a/drivers/gpu/drm/jz4780/jz4780_crtc.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/drivers/gpu/drm/jz4780/jz4780_crtc.c	2014-11-26 11:54:41.768529434 +0100
+--- /dev/null
++++ b/drivers/gpu/drm/jz4780/jz4780_crtc.c
 @@ -0,0 +1,592 @@
 +/*
 + * Copyright (C) 2014 Imagination Technologies
@@ -3558,9 +3554,8 @@ diff -urN a/drivers/gpu/drm/jz4780/jz4780_crtc.c b/drivers/gpu/drm/jz4780/jz4780
 +	jz4780_crtc_destroy(crtc);
 +	return NULL;
 +}
-diff -urN a/drivers/gpu/drm/jz4780/jz4780_drv.c b/drivers/gpu/drm/jz4780/jz4780_drv.c
---- a/drivers/gpu/drm/jz4780/jz4780_drv.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/drivers/gpu/drm/jz4780/jz4780_drv.c	2014-11-26 11:56:00.245500692 +0100
+--- /dev/null
++++ b/drivers/gpu/drm/jz4780/jz4780_drv.c
 @@ -0,0 +1,378 @@
 +/*
 + * Copyright (C) 2014 Imagination Technologies
@@ -3940,9 +3935,8 @@ diff -urN a/drivers/gpu/drm/jz4780/jz4780_drv.c b/drivers/gpu/drm/jz4780/jz4780_
 +MODULE_AUTHOR("Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>");
 +MODULE_DESCRIPTION("Ingenic JZ4780 LCD/HDMI Driver");
 +MODULE_LICENSE("GPL");
-diff -urN a/drivers/gpu/drm/jz4780/jz4780_drv.h b/drivers/gpu/drm/jz4780/jz4780_drv.h
---- a/drivers/gpu/drm/jz4780/jz4780_drv.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/drivers/gpu/drm/jz4780/jz4780_drv.h	2014-11-26 11:56:41.034054041 +0100
+--- /dev/null
++++ b/drivers/gpu/drm/jz4780/jz4780_drv.h
 @@ -0,0 +1,85 @@
 +/*
 + * Copyright (C) 2014 Imagination Technologies
@@ -4029,9 +4023,8 @@ diff -urN a/drivers/gpu/drm/jz4780/jz4780_drv.h b/drivers/gpu/drm/jz4780/jz4780_
 +int jz4780_crtc_max_width(struct drm_crtc *crtc);
 +
 +#endif /* __jz4780_DRV_H__ */
-diff -urN a/drivers/gpu/drm/jz4780/jz4780_regs.h b/drivers/gpu/drm/jz4780/jz4780_regs.h
---- a/drivers/gpu/drm/jz4780/jz4780_regs.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/drivers/gpu/drm/jz4780/jz4780_regs.h	2014-11-26 11:57:36.886862617 +0100
+--- /dev/null
++++ b/drivers/gpu/drm/jz4780/jz4780_regs.h
 @@ -0,0 +1,694 @@
 +/*
 + * Copyright (c) 2014 Imagination Technologies
@@ -4727,9 +4720,8 @@ diff -urN a/drivers/gpu/drm/jz4780/jz4780_regs.h b/drivers/gpu/drm/jz4780/jz4780
 +	iowrite32(data, priv->mmio + reg);
 +}
 +#endif /* __JZ4780_REGS_H__ */
-diff -urN a/drivers/gpu/drm/jz4780/Kconfig b/drivers/gpu/drm/jz4780/Kconfig
---- a/drivers/gpu/drm/jz4780/Kconfig	1970-01-01 01:00:00.000000000 +0100
-+++ b/drivers/gpu/drm/jz4780/Kconfig	2014-11-26 11:41:09.241223722 +0100
+--- /dev/null
++++ b/drivers/gpu/drm/jz4780/Kconfig
 @@ -0,0 +1,13 @@
 +config DRM_JZ4780
 +	tristate "DRM Support for Ingenic JZ4780 LCDC Display Controller"
@@ -4744,9 +4736,8 @@ diff -urN a/drivers/gpu/drm/jz4780/Kconfig b/drivers/gpu/drm/jz4780/Kconfig
 +	help
 +	  Choose this option if you have an Ingenic SoC with LCDC display
 +	  controller, for example the CI20 board.
-diff -urN a/drivers/gpu/drm/jz4780/Makefile b/drivers/gpu/drm/jz4780/Makefile
---- a/drivers/gpu/drm/jz4780/Makefile	1970-01-01 01:00:00.000000000 +0100
-+++ b/drivers/gpu/drm/jz4780/Makefile	2014-11-26 11:42:00.137384206 +0100
+--- /dev/null
++++ b/drivers/gpu/drm/jz4780/Makefile
 @@ -0,0 +1,12 @@
 +ccflags-y := -Iinclude/drm
 +ifeq (, $(findstring -W,$(EXTRA_CFLAGS)))
@@ -4760,19 +4751,17 @@ diff -urN a/drivers/gpu/drm/jz4780/Makefile b/drivers/gpu/drm/jz4780/Makefile
 +
 +obj-$(CONFIG_DRM_JZ4780)	+= jz4780.o
 +
-diff -urN a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
---- a/drivers/gpu/drm/Kconfig	2014-11-09 23:55:29.000000000 +0100
-+++ b/drivers/gpu/drm/Kconfig	2014-11-26 11:38:58.465623086 +0100
-@@ -200,3 +200,5 @@
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -200,3 +200,5 @@ source "drivers/gpu/drm/tegra/Kconfig"
  source "drivers/gpu/drm/panel/Kconfig"
  
  source "drivers/gpu/drm/sti/Kconfig"
 +
 +source "drivers/gpu/drm/jz4780/Kconfig"
-diff -urN a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
---- a/drivers/gpu/drm/Makefile	2014-11-09 23:55:29.000000000 +0100
-+++ b/drivers/gpu/drm/Makefile	2014-11-26 11:39:41.005352941 +0100
-@@ -65,3 +65,4 @@
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -65,3 +65,4 @@ obj-$(CONFIG_DRM_STI) += sti/
  obj-y			+= i2c/
  obj-y			+= panel/
  obj-y			+= bridge/

@@ -1,6 +1,5 @@
-diff -urN a/drivers/mmc/host/jz47xx_mmc.c b/drivers/mmc/host/jz47xx_mmc.c
---- a/drivers/mmc/host/jz47xx_mmc.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/drivers/mmc/host/jz47xx_mmc.c	2014-11-18 22:23:29.712752578 +0100
+--- /dev/null
++++ b/drivers/mmc/host/jz47xx_mmc.c
 @@ -0,0 +1,1109 @@
 +/*
 + *  Copyright (C) 2009-2010, Lars-Peter Clausen <lars@metafoo.de>
@@ -1139,8 +1138,8 @@ diff -urN a/drivers/mmc/host/jz47xx_mmc.c b/drivers/mmc/host/jz47xx_mmc.c
  obj-$(CONFIG_MMC_VUB300)	+= vub300.o
  obj-$(CONFIG_MMC_USHC)		+= ushc.o
  obj-$(CONFIG_MMC_WMT)		+= wmt-sdmmc.o
---- a/include/linux/platform_data/mmc-jz47xx.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/include/linux/platform_data/mmc-jz47xx.h	2014-11-19 12:56:52.662093617 +0100
+--- /dev/null
++++ b/include/linux/platform_data/mmc-jz47xx.h
 @@ -0,0 +1,16 @@
 +#ifndef __LINUX_PLATFORM_DATA_MMC_JZ47XX_H
 +#define __LINUX_PLATFORM_DATA_MMC_JZ47XX_H
