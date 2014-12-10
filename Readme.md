@@ -2,25 +2,34 @@ This Openwrt fork is intended to add support for the MIPS Creator CI20 board.
 
 The status, for now, is as follows:
 
-Working:
+Working (at least seems to be):
 - IRQ controller.
 - DMA controller.
 - Pinctrl.
 - NEMC (nand and external memory controller).
 - Davicom DM9000 ethernet.
 - TCU and CGU.
-- EHCI and OHCI usb port. OHCI HCD interferes with EHCI, so for now is better to not include it.
+- EHCI usb port.
+- OTG USB.
 - RTC controller.
 - ACT8600 power regulator.
 - I2c bus.
+- MMC driver.
+
+Known issues:
+- MMC driver hangs sometimes.
+- When DWC2 and/or OHCI drivers are loaded, EHCI becomes unusable.
 
 Not workinkg:
-- OTG USB driver (it crash when is loaded).
-- MMC driver (sometimes work but others not, causing a hang).
-- Wifi (brcmfmac): do not work as expected.
+- Wifi (brcmfmac): it needs specific code for the IW8103 wireless module.
+- OHCI usb.
+
+To be tested:
+- Audio subsystem.
+- Video subsystem.
+- NAND flash.
 
 To be added:
-- Audio subsystem.
 - Bluetooth.
 - ADC.
 - PWM.
@@ -33,5 +42,6 @@ How to boot the MIPS Creator CI20 with OpenWRT (for now):
 - 4. Power on the board and test.
 
 Notes:
+- Some drivers need to be improved.
 - Despite the ethernet controller is attached to an "slow" internal memory bus, the performance is good (~ 75 Mbps) with kernel 3.16 and above.
 - More information at elinux: http://elinux.org/MIPS_Creator_CI20
