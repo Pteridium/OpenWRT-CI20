@@ -1,0 +1,36 @@
+--- a/arch/mips/include/asm/cpu.h
++++ b/arch/mips/include/asm/cpu.h
+@@ -43,6 +43,7 @@
+ #define PRID_COMP_NETLOGIC	0x0c0000
+ #define PRID_COMP_CAVIUM	0x0d0000
+ #define PRID_COMP_INGENIC	0xd00000
++#define PRID_COMP_INGENIC2	0xe10000
+ 
+ /*
+  * Assigned Processor ID (implementation) values for bits 15:8 of the PRId
+--- a/arch/mips/include/asm/cpu-type.h
++++ b/arch/mips/include/asm/cpu-type.h
+@@ -32,12 +32,12 @@ static inline int __pure __get_cpu_type(
+ 	case CPU_4KC:
+ 	case CPU_ALCHEMY:
+ 	case CPU_PR4450:
+-	case CPU_JZRISC:
+ #endif
+ 
+ #if defined(CONFIG_SYS_HAS_CPU_MIPS32_R1) || \
+     defined(CONFIG_SYS_HAS_CPU_MIPS32_R2)
+ 	case CPU_4KEC:
++	case CPU_JZRISC:
+ #endif
+ 
+ #ifdef CONFIG_SYS_HAS_CPU_MIPS32_R2
+--- a/arch/mips/kernel/cpu-probe.c
++++ b/arch/mips/kernel/cpu-probe.c
+@@ -1218,6 +1218,7 @@ void cpu_probe(void)
+ 		cpu_probe_cavium(c, cpu);
+ 		break;
+ 	case PRID_COMP_INGENIC:
++	case PRID_COMP_INGENIC2:
+ 		cpu_probe_ingenic(c, cpu);
+ 		break;
+ 	case PRID_COMP_NETLOGIC:
