@@ -1,0 +1,1 @@
+BOARDNAME:=MIPS Creator CI20
