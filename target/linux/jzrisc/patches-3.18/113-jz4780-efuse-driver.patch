@@ -1,6 +1,5 @@
-diff -urN a/drivers/misc/efuse/jz4780_efuse.c b/drivers/misc/efuse/jz4780_efuse.c
---- a/drivers/misc/efuse/jz4780_efuse.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/drivers/misc/efuse/jz4780_efuse.c	2014-11-22 16:09:29.734683847 +0100
+--- /dev/null
++++ b/drivers/misc/efuse/jz4780_efuse.c
 @@ -0,0 +1,685 @@
 +/*
 + * jz4780_efuse.c - Driver to read/write from the JZ4780 one time programmable
@@ -687,9 +686,8 @@ diff -urN a/drivers/misc/efuse/jz4780_efuse.c b/drivers/misc/efuse/jz4780_efuse.
 +
 +MODULE_AUTHOR("Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>");
 +MODULE_LICENSE("GPL");
-diff -urN a/drivers/misc/efuse/jz4780_efuse.h b/drivers/misc/efuse/jz4780_efuse.h
---- a/drivers/misc/efuse/jz4780_efuse.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/drivers/misc/efuse/jz4780_efuse.h	2014-11-22 16:10:09.690979501 +0100
+--- /dev/null
++++ b/drivers/misc/efuse/jz4780_efuse.h
 @@ -0,0 +1,82 @@
 +#ifndef __JZ4780_EFUSE_H__
 +#define __JZ4780_EFUSE_H__
@@ -773,9 +771,8 @@ diff -urN a/drivers/misc/efuse/jz4780_efuse.h b/drivers/misc/efuse/jz4780_efuse.
 +
 +#endif
 +
-diff -urN a/drivers/misc/efuse/Kconfig b/drivers/misc/efuse/Kconfig
---- a/drivers/misc/efuse/Kconfig	1970-01-01 01:00:00.000000000 +0100
-+++ b/drivers/misc/efuse/Kconfig	2014-11-22 16:06:47.813454853 +0100
+--- /dev/null
++++ b/drivers/misc/efuse/Kconfig
 @@ -0,0 +1,17 @@
 +#
 +# Misc efuse devices. generally found in SoCs. Used to store mac addresses,
@@ -794,15 +791,13 @@ diff -urN a/drivers/misc/efuse/Kconfig b/drivers/misc/efuse/Kconfig
 +
 +endmenu
 +
-diff -urN a/drivers/misc/efuse/Makefile b/drivers/misc/efuse/Makefile
---- a/drivers/misc/efuse/Makefile	1970-01-01 01:00:00.000000000 +0100
-+++ b/drivers/misc/efuse/Makefile	2014-11-22 16:07:32.265797247 +0100
+--- /dev/null
++++ b/drivers/misc/efuse/Makefile
 @@ -0,0 +1 @@
 +obj-$(CONFIG_JZ4780_EFUSE)	+= jz4780_efuse.o
-diff -urN a/drivers/misc/Kconfig b/drivers/misc/Kconfig
---- a/drivers/misc/Kconfig	2014-11-09 23:55:29.000000000 +0100
-+++ b/drivers/misc/Kconfig	2014-11-22 16:03:18.132263048 +0100
-@@ -517,6 +517,7 @@
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -517,6 +517,7 @@ config VEXPRESS_SYSCFG
  
  source "drivers/misc/c2port/Kconfig"
  source "drivers/misc/eeprom/Kconfig"
@@ -810,10 +805,9 @@ diff -urN a/drivers/misc/Kconfig b/drivers/misc/Kconfig
  source "drivers/misc/cb710/Kconfig"
  source "drivers/misc/ti-st/Kconfig"
  source "drivers/misc/lis3lv02d/Kconfig"
-diff -urN a/drivers/misc/Makefile b/drivers/misc/Makefile
---- a/drivers/misc/Makefile	2014-11-09 23:55:29.000000000 +0100
-+++ b/drivers/misc/Makefile	2014-11-22 16:04:38.472436610 +0100
-@@ -38,6 +38,7 @@
+--- a/drivers/misc/Makefile
++++ b/drivers/misc/Makefile
+@@ -38,6 +38,7 @@ obj-$(CONFIG_C2PORT)		+= c2port/
  obj-$(CONFIG_HMC6352)		+= hmc6352.o
  obj-y				+= eeprom/
  obj-y				+= cb710/

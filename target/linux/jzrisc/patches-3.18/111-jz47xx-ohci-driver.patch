@@ -1,7 +1,6 @@
-diff -urN a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c
---- a/drivers/usb/host/ohci-hcd.c	2014-11-09 23:55:29.000000000 +0100
-+++ b/drivers/usb/host/ohci-hcd.c	2014-11-20 20:53:56.105151927 +0100
-@@ -1249,6 +1249,11 @@
+--- a/drivers/usb/host/ohci-hcd.c
++++ b/drivers/usb/host/ohci-hcd.c
+@@ -1249,6 +1249,11 @@ MODULE_LICENSE ("GPL");
  #define PLATFORM_DRIVER	ohci_hcd_jz4740_driver
  #endif
  
@@ -13,9 +12,8 @@ diff -urN a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c
  #ifdef CONFIG_USB_OCTEON_OHCI
  #include "ohci-octeon.c"
  #define PLATFORM_DRIVER		ohci_octeon_driver
-diff -urN a/drivers/usb/host/ohci-jz47xx.c b/drivers/usb/host/ohci-jz47xx.c
---- a/drivers/usb/host/ohci-jz47xx.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/drivers/usb/host/ohci-jz47xx.c	2014-11-20 20:50:53.375590366 +0100
+--- /dev/null
++++ b/drivers/usb/host/ohci-jz47xx.c
 @@ -0,0 +1,270 @@
 +/*
 + *  Copyright (C) 2010, Lars-Peter Clausen <lars@metafoo.de>

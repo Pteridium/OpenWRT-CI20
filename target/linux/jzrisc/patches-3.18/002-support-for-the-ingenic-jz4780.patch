@@ -1,6 +1,5 @@
-diff -urN a/arch/mips/include/asm/mach-jz4780/cpu-feature-overrides.h b/arch/mips/include/asm/mach-jz4780/cpu-feature-overrides.h
---- a/arch/mips/include/asm/mach-jz4780/cpu-feature-overrides.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/include/asm/mach-jz4780/cpu-feature-overrides.h	2014-11-18 19:53:38.859528250 +0100
+--- /dev/null
++++ b/arch/mips/include/asm/mach-jz4780/cpu-feature-overrides.h
 @@ -0,0 +1,71 @@
 +/*
 + *  Ingenic JZ4780 specific CPU feature overrides
@@ -73,9 +72,8 @@ diff -urN a/arch/mips/include/asm/mach-jz4780/cpu-feature-overrides.h b/arch/mip
 +#define cpu_scache_line_size()		128
 +
 +#endif
-diff -urN a/arch/mips/include/asm/mach-jz4780/gpio.h b/arch/mips/include/asm/mach-jz4780/gpio.h
---- a/arch/mips/include/asm/mach-jz4780/gpio.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/include/asm/mach-jz4780/gpio.h	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/include/asm/mach-jz4780/gpio.h
 @@ -0,0 +1,34 @@
 +/*
 + * JZ4780 GPIOs
@@ -111,9 +109,8 @@ diff -urN a/arch/mips/include/asm/mach-jz4780/gpio.h b/arch/mips/include/asm/mac
 +#define gpio_to_irq	__gpio_to_irq
 +
 +#endif /* __MIPS_ASM_MACH_JZ4780_GPIO_H__ */
-diff -urN a/arch/mips/include/asm/mach-jz4780/irq.h b/arch/mips/include/asm/mach-jz4780/irq.h
---- a/arch/mips/include/asm/mach-jz4780/irq.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/include/asm/mach-jz4780/irq.h	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/include/asm/mach-jz4780/irq.h
 @@ -0,0 +1,30 @@
 +/*
 + * JZ4780 IRQ configuration
@@ -145,9 +142,8 @@ diff -urN a/arch/mips/include/asm/mach-jz4780/irq.h b/arch/mips/include/asm/mach
 +#include_next <irq.h>
 +
 +#endif /* __MIPS_ASM_MACH_JZ4780_IRQ_H__ */
-diff -urN a/arch/mips/include/asm/mach-jz4780/jz4780-cgu.h b/arch/mips/include/asm/mach-jz4780/jz4780-cgu.h
---- a/arch/mips/include/asm/mach-jz4780/jz4780-cgu.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/include/asm/mach-jz4780/jz4780-cgu.h	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/include/asm/mach-jz4780/jz4780-cgu.h
 @@ -0,0 +1,197 @@
 +/*
 + * JZ4780 CGU driver
@@ -346,9 +342,8 @@ diff -urN a/arch/mips/include/asm/mach-jz4780/jz4780-cgu.h b/arch/mips/include/a
 +extern int jz4780_cgu_set_usbpcr_param(u32 param, bool enable);
 +
 +#endif /* __MIPS_ASM_MACH_JZ4780_JZ4780_CGU_H__ */
-diff -urN a/arch/mips/include/asm/mach-jz4780/jz4780.h b/arch/mips/include/asm/mach-jz4780/jz4780.h
---- a/arch/mips/include/asm/mach-jz4780/jz4780.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/include/asm/mach-jz4780/jz4780.h	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/include/asm/mach-jz4780/jz4780.h
 @@ -0,0 +1,37 @@
 +/*
 + * JZ4780 SoC definitions
@@ -387,9 +382,8 @@ diff -urN a/arch/mips/include/asm/mach-jz4780/jz4780.h b/arch/mips/include/asm/m
 +#define JZ4780_UARTn_BASE(n)	(JZ4780_UART0_BASE + (n * 0x1000))
 +
 +#endif /* __MIPS_ASM_MACH_JZ4780_JZ4780_H__ */
-diff -urN a/arch/mips/include/asm/mach-jz4780/jz4780-smp.h b/arch/mips/include/asm/mach-jz4780/jz4780-smp.h
---- a/arch/mips/include/asm/mach-jz4780/jz4780-smp.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/include/asm/mach-jz4780/jz4780-smp.h	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/include/asm/mach-jz4780/jz4780-smp.h
 @@ -0,0 +1,99 @@
 +/*
 + * JZ4780 SMP
@@ -490,9 +484,8 @@ diff -urN a/arch/mips/include/asm/mach-jz4780/jz4780-smp.h b/arch/mips/include/a
 +#endif /* !CONFIG_SMP */
 +
 +#endif /* __MIPS_ASM_MACH_JZ4780_JZ4780_SMP_H__ */
-diff -urN a/arch/mips/include/asm/mach-jz4780/war.h b/arch/mips/include/asm/mach-jz4780/war.h
---- a/arch/mips/include/asm/mach-jz4780/war.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/include/asm/mach-jz4780/war.h	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/include/asm/mach-jz4780/war.h
 @@ -0,0 +1,39 @@
 +/*
 + * JZ4780 workarounds
@@ -533,9 +526,8 @@ diff -urN a/arch/mips/include/asm/mach-jz4780/war.h b/arch/mips/include/asm/mach
 +#define MIPS34K_MISSED_ITLB_WAR		0
 +
 +#endif /* __MIPS_ASM_MACH_JZ4780_WAR_H__ */
-diff -urN a/arch/mips/jz4780/early_uart.c b/arch/mips/jz4780/early_uart.c
---- a/arch/mips/jz4780/early_uart.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/jz4780/early_uart.c	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/jz4780/early_uart.c
 @@ -0,0 +1,73 @@
 +/*
 + * JZ4780 early UART access
@@ -610,9 +602,8 @@ diff -urN a/arch/mips/jz4780/early_uart.c b/arch/mips/jz4780/early_uart.c
 +	writeb(c, thr);
 +	return 1;
 +}
-diff -urN a/arch/mips/jz4780/irq.c b/arch/mips/jz4780/irq.c
---- a/arch/mips/jz4780/irq.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/jz4780/irq.c	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/jz4780/irq.c
 @@ -0,0 +1,55 @@
 +/*
 + * JZ4780 IRQ handling
@@ -669,9 +660,8 @@ diff -urN a/arch/mips/jz4780/irq.c b/arch/mips/jz4780/irq.c
 +	mips_cpu_irq_init();
 +	irqchip_init();
 +}
-diff -urN a/arch/mips/jz4780/Kconfig b/arch/mips/jz4780/Kconfig
---- a/arch/mips/jz4780/Kconfig	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/jz4780/Kconfig	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/jz4780/Kconfig
 @@ -0,0 +1,9 @@
 +choice
 +	prompt "Machine type"
@@ -682,9 +672,8 @@ diff -urN a/arch/mips/jz4780/Kconfig b/arch/mips/jz4780/Kconfig
 +	bool "CI20"
 +
 +endchoice
-diff -urN a/arch/mips/jz4780/Makefile b/arch/mips/jz4780/Makefile
---- a/arch/mips/jz4780/Makefile	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/jz4780/Makefile	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/jz4780/Makefile
 @@ -0,0 +1,31 @@
 +#
 +# Ingenic JZ4780 makefile
@@ -717,16 +706,14 @@ diff -urN a/arch/mips/jz4780/Makefile b/arch/mips/jz4780/Makefile
 +obj-$(CONFIG_SMP) += smp-entry.o
 +
 +obj-y += dts/
-diff -urN a/arch/mips/jz4780/Platform b/arch/mips/jz4780/Platform
---- a/arch/mips/jz4780/Platform	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/jz4780/Platform	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/jz4780/Platform
 @@ -0,0 +1,3 @@
 +platform-$(CONFIG_MACH_JZ4780)	+= jz4780/
 +cflags-$(CONFIG_MACH_JZ4780)	+= -I$(srctree)/arch/mips/include/asm/mach-jz4780
 +load-$(CONFIG_MACH_JZ4780)	+= 0xffffffff80000000
-diff -urN a/arch/mips/jz4780/reset.c b/arch/mips/jz4780/reset.c
---- a/arch/mips/jz4780/reset.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/jz4780/reset.c	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/jz4780/reset.c
 @@ -0,0 +1,157 @@
 +/*
 + * JZ4780 poweroff/reset
@@ -885,9 +872,8 @@ diff -urN a/arch/mips/jz4780/reset.c b/arch/mips/jz4780/reset.c
 +	return 0;
 +}
 +arch_initcall(jz4780_reset_setup);
-diff -urN a/arch/mips/jz4780/setup.c b/arch/mips/jz4780/setup.c
---- a/arch/mips/jz4780/setup.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/jz4780/setup.c	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/jz4780/setup.c
 @@ -0,0 +1,78 @@
 +/*
 + * JZ4780 setup
@@ -967,9 +953,8 @@ diff -urN a/arch/mips/jz4780/setup.c b/arch/mips/jz4780/setup.c
 +	return of_platform_bus_probe(NULL, jz4780_ids, NULL);
 +}
 +device_initcall(jz4780_publish_devices);
-diff -urN a/arch/mips/jz4780/smp.c b/arch/mips/jz4780/smp.c
---- a/arch/mips/jz4780/smp.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/jz4780/smp.c	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/jz4780/smp.c
 @@ -0,0 +1,270 @@
 +/*
 + * JZ4780 SMP
@@ -1241,9 +1226,8 @@ diff -urN a/arch/mips/jz4780/smp.c b/arch/mips/jz4780/smp.c
 +{
 +	register_smp_ops(&jz4780_smp_ops);
 +}
-diff -urN a/arch/mips/jz4780/smp-entry.S b/arch/mips/jz4780/smp-entry.S
---- a/arch/mips/jz4780/smp-entry.S	1970-01-01 01:00:00.000000000 +0100
-+++ b/arch/mips/jz4780/smp-entry.S	2014-11-18 19:24:06.442229813 +0100
+--- /dev/null
++++ b/arch/mips/jz4780/smp-entry.S
 @@ -0,0 +1,72 @@
 +/*
 + * JZ4780 SMP entry point
@@ -1317,10 +1301,9 @@ diff -urN a/arch/mips/jz4780/smp-entry.S b/arch/mips/jz4780/smp-entry.S
 +	j	smp_bootstrap
 +	 nop
 +	END(jz4780_secondary_cpu_entry)
-diff -urN a/arch/mips/Kbuild.platforms b/arch/mips/Kbuild.platforms
---- a/arch/mips/Kbuild.platforms	2014-11-09 23:55:29.000000000 +0100
-+++ b/arch/mips/Kbuild.platforms	2014-11-18 19:24:06.470229938 +0100
-@@ -11,6 +11,7 @@
+--- a/arch/mips/Kbuild.platforms
++++ b/arch/mips/Kbuild.platforms
+@@ -11,6 +11,7 @@ platforms += dec
  platforms += emma
  platforms += jazz
  platforms += jz4740
@@ -1328,10 +1311,9 @@ diff -urN a/arch/mips/Kbuild.platforms b/arch/mips/Kbuild.platforms
  platforms += lantiq
  platforms += lasat
  platforms += loongson
-diff -urN a/arch/mips/Kconfig b/arch/mips/Kconfig
---- a/arch/mips/Kconfig	2014-11-18 19:15:12.000000000 +0100
-+++ b/arch/mips/Kconfig	2014-11-18 19:24:06.478229987 +0100
-@@ -248,6 +248,29 @@
+--- a/arch/mips/Kconfig
++++ b/arch/mips/Kconfig
+@@ -248,6 +248,29 @@ config MACH_JZ4740
  	select HAVE_CLK
  	select GENERIC_IRQ_CHIP
  
@@ -1361,7 +1343,7 @@ diff -urN a/arch/mips/Kconfig b/arch/mips/Kconfig
  config LANTIQ
  	bool "Lantiq based platforms"
  	select DMA_NONCOHERENT
-@@ -840,6 +863,7 @@
+@@ -840,6 +863,7 @@ source "arch/mips/bcm47xx/Kconfig"
  source "arch/mips/bcm63xx/Kconfig"
  source "arch/mips/jazz/Kconfig"
  source "arch/mips/jz4740/Kconfig"
@@ -1369,10 +1351,9 @@ diff -urN a/arch/mips/Kconfig b/arch/mips/Kconfig
  source "arch/mips/lantiq/Kconfig"
  source "arch/mips/lasat/Kconfig"
  source "arch/mips/pmcs-msp71xx/Kconfig"
-diff -urN a/arch/mips/kernel/idle.c b/arch/mips/kernel/idle.c
---- a/arch/mips/kernel/idle.c	2014-11-09 23:55:29.000000000 +0100
-+++ b/arch/mips/kernel/idle.c	2014-11-18 19:24:06.482230001 +0100
-@@ -70,6 +70,28 @@
+--- a/arch/mips/kernel/idle.c
++++ b/arch/mips/kernel/idle.c
+@@ -70,6 +70,28 @@ void r4k_wait_irqoff(void)
  	local_irq_enable();
  }
  
@@ -1401,7 +1382,7 @@ diff -urN a/arch/mips/kernel/idle.c b/arch/mips/kernel/idle.c
  /*
   * The RM7000 variant has to handle erratum 38.	 The workaround is to not
   * have any pending stores when the WAIT instruction is executed.
-@@ -165,7 +187,6 @@
+@@ -165,7 +187,6 @@ void __init check_wait(void)
  	case CPU_CAVIUM_OCTEON_PLUS:
  	case CPU_CAVIUM_OCTEON2:
  	case CPU_CAVIUM_OCTEON3:
@@ -1409,7 +1390,7 @@ diff -urN a/arch/mips/kernel/idle.c b/arch/mips/kernel/idle.c
  	case CPU_LOONGSON1:
  	case CPU_XLR:
  	case CPU_XLP:
-@@ -221,6 +242,12 @@
+@@ -221,6 +242,12 @@ void __init check_wait(void)
  		   cpu_wait = r4k_wait;
  		 */
  		break;
