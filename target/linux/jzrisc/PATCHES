@@ -1,0 +1,4 @@
+The patches are structured as follows:
+- 0xx-3xx: Ingenic JZ4780 patches.
+- 4xx-8xx: MIPS CI20 specific patches.
+- 9xx: other patches to make OpenWRT run on the CI20.
