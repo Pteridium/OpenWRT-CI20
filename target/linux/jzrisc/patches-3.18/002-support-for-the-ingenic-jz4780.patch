@@ -35,7 +35,7 @@
 +#define cpu_has_mcheck			1
 +#define cpu_has_ejtag			1
 +#define cpu_has_llsc			1
-+#define kernel_uses_llsc		1
++/*#define kernel_uses_llsc		1*/
 +
 +#define cpu_has_mips16			0
 +#define cpu_has_mdmx			0
@@ -57,8 +57,8 @@
 +#define cpu_has_rixiex			0
 +#define cpu_has_vz			0
 +
-+/* #define cpu_has_vint			1 */ 
-+/* #define cpu_has_veic			1 */
++#define cpu_has_vint			0
++#define cpu_has_veic			0
 +
 +#define cpu_has_64bits			0
 +#define cpu_has_64bit_zero_reg		0
