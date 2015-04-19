@@ -1,0 +1,28 @@
+--- a/drivers/memory/Kconfig
++++ b/drivers/memory/Kconfig
+@@ -17,6 +17,15 @@ config ATMEL_SDRAMC
+ 	  Starting with the at91sam9g45, this controller supports SDR, DDR and
+ 	  LP-DDR memories.
+ 
++config JZ47XX_NEMC
++	bool "Ingenic JZ47xx SoC NEMC driver"
++	default y
++	depends on MACH_JZ4780
++	help
++	  This driver is for the NAND/External Memory Controller (NEMC) in
++	  the Ingenic JZ4760 and later SoCs. This controller is used to
++	  handle external memory devices such as NAND and SRAM.
++
+ config TI_AEMIF
+ 	tristate "Texas Instruments AEMIF driver"
+ 	depends on (ARCH_DAVINCI || ARCH_KEYSTONE) && OF
+--- a/drivers/memory/Makefile
++++ b/drivers/memory/Makefile
+@@ -6,6 +6,7 @@ ifeq ($(CONFIG_DDR),y)
+ obj-$(CONFIG_OF)		+= of_memory.o
+ endif
+ obj-$(CONFIG_ATMEL_SDRAMC)	+= atmel-sdramc.o
++obj-$(CONFIG_JZ47XX_NEMC)	+= jz47xx-nemc.o
+ obj-$(CONFIG_TI_AEMIF)		+= ti-aemif.o
+ obj-$(CONFIG_TI_EMIF)		+= emif.o
+ obj-$(CONFIG_FSL_CORENET_CF)	+= fsl-corenet-cf.o
