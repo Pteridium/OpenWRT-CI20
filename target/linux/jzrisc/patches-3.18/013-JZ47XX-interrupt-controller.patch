@@ -1,0 +1,20 @@
+--- a/drivers/irqchip/Kconfig
++++ b/drivers/irqchip/Kconfig
+@@ -63,6 +63,10 @@ config IMGPDC_IRQ
+ 	select GENERIC_IRQ_CHIP
+ 	select IRQ_DOMAIN
+ 
++config JZ4740_IRQC
++	bool
++	select GENERIC_IRQ_CHIP
++
+ config CLPS711X_IRQCHIP
+ 	bool
+ 	depends on ARCH_CLPS711X
+--- a/drivers/irqchip/Makefile
++++ b/drivers/irqchip/Makefile
+@@ -38,3 +38,4 @@ obj-$(CONFIG_IRQ_CROSSBAR)		+= irq-cross
+ obj-$(CONFIG_BRCMSTB_L2_IRQ)		+= irq-brcmstb-l2.o \
+ 					   irq-bcm7120-l2.o
+ obj-$(CONFIG_KEYSTONE_IRQ)		+= irq-keystone.o
++obj-$(CONFIG_JZ4740_IRQC)		+= irq-jz4740.o
