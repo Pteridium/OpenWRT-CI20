@@ -1,0 +1,25 @@
+--- a/drivers/pinctrl/Kconfig
++++ b/drivers/pinctrl/Kconfig
+@@ -223,6 +223,12 @@ config PINCTRL_TB10X
+ 	bool
+ 	depends on ARC_PLAT_TB10X
+ 
++config PINCTRL_JZ4780
++	bool
++	depends on MACH_JZ4780
++	select PINMUX
++	select GENERIC_PINCONF
++
+ endmenu
+ 
+ endif
+--- a/drivers/pinctrl/Makefile
++++ b/drivers/pinctrl/Makefile
+@@ -36,6 +36,7 @@ obj-$(CONFIG_PINCTRL_XWAY)	+= pinctrl-xw
+ obj-$(CONFIG_PINCTRL_LANTIQ)	+= pinctrl-lantiq.o
+ obj-$(CONFIG_PINCTRL_TB10X)	+= pinctrl-tb10x.o
+ obj-$(CONFIG_PINCTRL_ST) 	+= pinctrl-st.o
++obj-$(CONFIG_PINCTRL_JZ4780)	+= pinctrl-jz4780.o
+ 
+ obj-$(CONFIG_ARCH_BERLIN)	+= berlin/
+ obj-y				+= freescale/
