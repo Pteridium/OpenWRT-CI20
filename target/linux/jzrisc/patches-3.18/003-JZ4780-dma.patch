@@ -1,0 +1,29 @@
+--- a/drivers/dma/Kconfig
++++ b/drivers/dma/Kconfig
+@@ -351,6 +351,16 @@ config DMA_JZ4740
+ 	select DMA_ENGINE
+ 	select DMA_VIRTUAL_CHANNELS
+ 
++config DMA_JZ4780
++	tristate "JZ4780 DMA support"
++	depends on MACH_JZ4780
++	select DMA_ENGINE
++	select DMA_VIRTUAL_CHANNELS
++	help
++	  This selects support for the DMA controller in Ingenic JZ4780 SoCs.
++	  If you have a board based on such a SoC and wish to use DMA for
++	  devices which can use the DMA controller, say Y or M here.
++
+ config K3_DMA
+ 	tristate "Hisilicon K3 DMA support"
+ 	depends on ARCH_HI3xxx
+--- a/drivers/dma/Makefile
++++ b/drivers/dma/Makefile
+@@ -40,6 +40,7 @@ obj-$(CONFIG_DMA_OMAP) += omap-dma.o
+ obj-$(CONFIG_DMA_BCM2835) += bcm2835-dma.o
+ obj-$(CONFIG_MMP_PDMA) += mmp_pdma.o
+ obj-$(CONFIG_DMA_JZ4740) += dma-jz4740.o
++obj-$(CONFIG_DMA_JZ4780) += dma-jz4780.o
+ obj-$(CONFIG_TI_CPPI41) += cppi41.o
+ obj-$(CONFIG_K3_DMA) += k3dma.o
+ obj-$(CONFIG_MOXART_DMA) += moxart-dma.o
