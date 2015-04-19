@@ -1,0 +1,24 @@
+--- a/drivers/usb/dwc2/Kconfig
++++ b/drivers/usb/dwc2/Kconfig
+@@ -57,6 +57,13 @@ config USB_DWC2_PLATFORM
+           The Designware USB2.0 platform interface module for
+           controllers directly connected to the CPU.
+ 
++config USB_DWC2_JZ4780
++	bool "Enable support for JZ4780 SoC"
++	depends on MACH_JZ4780 && USB_DWC2_PLATFORM
++	help
++	  Say Y here to enable the DWC2 Driver for the JZ4780 SoC.
++	  This SoC has an OTG controller based on the Synopsys DWC Core
++
+ config USB_DWC2_PCI
+ 	tristate "DWC2 PCI"
+ 	depends on USB_DWC2_HOST && PCI
+--- a/drivers/usb/dwc2/Makefile
++++ b/drivers/usb/dwc2/Makefile
+@@ -25,4 +25,5 @@ ifneq ($(CONFIG_USB_DWC2_PCI),)
+ endif
+ 
+ obj-$(CONFIG_USB_DWC2_PLATFORM)		+= dwc2_platform.o
++	obj-$(CONFIG_USB_DWC2_JZ4780)	+= jz4780_platform.o
+ dwc2_platform-y				:= platform.o
