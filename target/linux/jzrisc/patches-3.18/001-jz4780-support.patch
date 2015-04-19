@@ -1,0 +1,134 @@
+--- a/arch/mips/boot/dts/Makefile
++++ b/arch/mips/boot/dts/Makefile
+@@ -8,6 +8,7 @@ dtb-$(CONFIG_DTB_RT2880_EVAL)		+= rt2880
+ dtb-$(CONFIG_DTB_RT305X_EVAL)		+= rt3052_eval.dtb
+ dtb-$(CONFIG_DTB_RT3883_EVAL)		+= rt3883_eval.dtb
+ dtb-$(CONFIG_DTB_MT7620A_EVAL)		+= mt7620a_eval.dtb
++dtb-$(CONFIG_JZ4780_CI20)		+= ci20.dtb
+ dtb-$(CONFIG_MIPS_SEAD3)		+= sead3.dtb
+ 
+ obj-y		+= $(patsubst %.dtb, %.dtb.o, $(dtb-y))
+--- a/arch/mips/Kconfig
++++ b/arch/mips/Kconfig
+@@ -248,6 +248,29 @@ config MACH_JZ4740
+ 	select HAVE_CLK
+ 	select GENERIC_IRQ_CHIP
+ 
++config MACH_JZ4780
++	bool "Ingenic JZ4780 based machines"
++	select SYS_HAS_CPU_MIPS32_R2
++	select SYS_SUPPORTS_32BIT_KERNEL
++	select SYS_SUPPORTS_LITTLE_ENDIAN
++	select SYS_SUPPORTS_ZBOOT_UART16550
++	select DMA_NONCOHERENT
++	select GENERIC_CLOCKEVENTS_BROADCAST if SMP
++	select IRQ_CPU
++	select ARCH_REQUIRE_GPIOLIB
++	select SYS_HAS_EARLY_PRINTK
++	select COMMON_CLK
++	select PINCTRL
++	select PINCTRL_JZ4780
++	select NR_CPUS_DEFAULT_2
++	select SYS_SUPPORTS_HIGHMEM
++	select JZ4740_IRQC
++	select BUILTIN_DTB
++	select USE_OF
++	select LIBFDT
++	select MIPS_CPU_SCACHE
++	select SYS_SUPPORTS_SMP
++
+ config LANTIQ
+ 	bool "Lantiq based platforms"
+ 	select DMA_NONCOHERENT
+--- a/arch/mips/include/asm/cpu.h
++++ b/arch/mips/include/asm/cpu.h
+@@ -43,6 +43,7 @@
+ #define PRID_COMP_NETLOGIC	0x0c0000
+ #define PRID_COMP_CAVIUM	0x0d0000
+ #define PRID_COMP_INGENIC	0xd00000
++#define PRID_COMP_INGENIC2	0xe10000
+ 
+ /*
+  * Assigned Processor ID (implementation) values for bits 15:8 of the PRId
+--- a/arch/mips/include/asm/cpu-type.h
++++ b/arch/mips/include/asm/cpu-type.h
+@@ -32,12 +32,12 @@ static inline int __pure __get_cpu_type(
+ 	case CPU_4KC:
+ 	case CPU_ALCHEMY:
+ 	case CPU_PR4450:
+-	case CPU_JZRISC:
+ #endif
+ 
+ #if defined(CONFIG_SYS_HAS_CPU_MIPS32_R1) || \
+     defined(CONFIG_SYS_HAS_CPU_MIPS32_R2)
+ 	case CPU_4KEC:
++	case CPU_JZRISC:
+ #endif
+ 
+ #ifdef CONFIG_SYS_HAS_CPU_MIPS32_R2
+--- a/arch/mips/kernel/cpu-probe.c
++++ b/arch/mips/kernel/cpu-probe.c
+@@ -1254,6 +1254,7 @@ void cpu_probe(void)
+ 		cpu_probe_cavium(c, cpu);
+ 		break;
+ 	case PRID_COMP_INGENIC:
++	case PRID_COMP_INGENIC2:
+ 		cpu_probe_ingenic(c, cpu);
+ 		break;
+ 	case PRID_COMP_NETLOGIC:
+--- a/arch/mips/kernel/idle.c
++++ b/arch/mips/kernel/idle.c
+@@ -70,6 +70,30 @@ void r4k_wait_irqoff(void)
+ 	local_irq_enable();
+ }
+ 
++#ifdef CONFIG_MACH_JZ4780
++extern void (*r4k_blast_dcache)(void);
++
++/*
++ * The Ingenic jz47xx SMP variant has to invalidate the data cache before
++ * executing wait. The CPU & cache clock will be gated until we return from
++ * the wait, and if another core attempts to access data from our data cache
++ * during this time then it will lock up.
++ */
++static void jz_wait_irqoff(void)
++{
++	r4k_blast_dcache();
++
++	if (!need_resched())
++		__asm__(
++		"	.set push \n"
++		"	.set mips3 \n"
++		"	sync \n"
++		"	wait \n"
++		"	.set pop \n");
++	local_irq_enable();
++}
++#endif
++
+ /*
+  * The RM7000 variant has to handle erratum 38.	 The workaround is to not
+  * have any pending stores when the WAIT instruction is executed.
+@@ -165,7 +189,6 @@ void __init check_wait(void)
+ 	case CPU_CAVIUM_OCTEON_PLUS:
+ 	case CPU_CAVIUM_OCTEON2:
+ 	case CPU_CAVIUM_OCTEON3:
+-	case CPU_JZRISC:
+ 	case CPU_LOONGSON1:
+ 	case CPU_XLR:
+ 	case CPU_XLP:
+@@ -221,6 +244,14 @@ void __init check_wait(void)
+ 		   cpu_wait = r4k_wait;
+ 		 */
+ 		break;
++	case CPU_JZRISC:
++#ifdef CONFIG_MACH_JZ4780
++		if (NR_CPUS > 1) {
++			cpu_wait = jz_wait_irqoff;
++		}
++		else
++#endif
++			cpu_wait = r4k_wait;
+ 	default:
+ 		break;
+ 	}
