@@ -1,0 +1,28 @@
+--- a/drivers/mmc/host/Kconfig
++++ b/drivers/mmc/host/Kconfig
+@@ -690,6 +690,15 @@ config MMC_JZ4740
+ 	  If you have a board based on such a SoC and with a SD/MMC slot,
+ 	  say Y or M here.
+ 
++config MMC_JZ4780
++	tristate "JZ4780 SD/Multimedia Card Interface support"
++	depends on MACH_JZ4780
++	help
++	  This selects support for the SD/MMC controller on Ingenic JZ4740
++	  SoCs.
++	  If you have a board based on such a SoC and with a SD/MMC slot,
++	  say Y or M here.
++
+ config MMC_VUB300
+ 	tristate "VUB300 USB to SDIO/SD/MMC Host Controller support"
+ 	depends on USB
+--- a/drivers/mmc/host/Makefile
++++ b/drivers/mmc/host/Makefile
+@@ -50,6 +50,7 @@ obj-$(CONFIG_MMC_DW_PCI)	+= dw_mmc-pci.o
+ obj-$(CONFIG_MMC_DW_ROCKCHIP)	+= dw_mmc-rockchip.o
+ obj-$(CONFIG_MMC_SH_MMCIF)	+= sh_mmcif.o
+ obj-$(CONFIG_MMC_JZ4740)	+= jz4740_mmc.o
++obj-$(CONFIG_MMC_JZ4780)	+= jz47xx_mmc.o
+ obj-$(CONFIG_MMC_VUB300)	+= vub300.o
+ obj-$(CONFIG_MMC_USHC)		+= ushc.o
+ obj-$(CONFIG_MMC_WMT)		+= wmt-sdmmc.o
