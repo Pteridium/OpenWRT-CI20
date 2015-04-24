@@ -1,7 +1,6 @@
-diff -urN a/arch/mips/include/asm/irq_cpu.h b/arch/mips/include/asm/irq_cpu.h
---- a/arch/mips/include/asm/irq_cpu.h	2015-02-27 02:49:36.000000000 +0100
-+++ b/arch/mips/include/asm/irq_cpu.h	2015-04-15 10:35:57.423907592 +0200
-@@ -19,8 +19,8 @@
+--- a/arch/mips/include/asm/irq_cpu.h
++++ b/arch/mips/include/asm/irq_cpu.h
+@@ -19,8 +19,8 @@ extern void rm9k_cpu_irq_init(void);
  
  #ifdef CONFIG_IRQ_DOMAIN
  struct device_node;
@@ -12,9 +11,8 @@ diff -urN a/arch/mips/include/asm/irq_cpu.h b/arch/mips/include/asm/irq_cpu.h
  #endif
  
  #endif /* _ASM_IRQ_CPU_H */
-diff -urN a/arch/mips/kernel/irq_cpu.c b/arch/mips/kernel/irq_cpu.c
---- a/arch/mips/kernel/irq_cpu.c	2015-02-27 02:49:36.000000000 +0100
-+++ b/arch/mips/kernel/irq_cpu.c	2015-04-15 10:37:01.900312544 +0200
+--- a/arch/mips/kernel/irq_cpu.c
++++ b/arch/mips/kernel/irq_cpu.c
 @@ -36,6 +36,7 @@
  #include <asm/irq_cpu.h>
  #include <asm/mipsregs.h>
@@ -23,7 +21,7 @@ diff -urN a/arch/mips/kernel/irq_cpu.c b/arch/mips/kernel/irq_cpu.c
  
  static inline void unmask_mips_irq(struct irq_data *d)
  {
-@@ -98,28 +99,24 @@
+@@ -98,28 +99,24 @@ static struct irq_chip mips_mt_cpu_irq_c
  	.irq_enable	= unmask_mips_irq,
  };
  
@@ -65,7 +63,7 @@ diff -urN a/arch/mips/kernel/irq_cpu.c b/arch/mips/kernel/irq_cpu.c
  static int mips_cpu_intc_map(struct irq_domain *d, unsigned int irq,
  			     irq_hw_number_t hw)
  {
-@@ -132,6 +129,9 @@
+@@ -132,6 +129,9 @@ static int mips_cpu_intc_map(struct irq_
  		chip = &mips_cpu_irq_controller;
  	}
  
@@ -75,7 +73,7 @@ diff -urN a/arch/mips/kernel/irq_cpu.c b/arch/mips/kernel/irq_cpu.c
  	irq_set_chip_and_handler(irq, chip, handle_percpu_irq);
  
  	return 0;
-@@ -142,8 +142,7 @@
+@@ -142,8 +142,7 @@ static const struct irq_domain_ops mips_
  	.xlate = irq_domain_xlate_onecell,
  };
  
@@ -85,7 +83,7 @@ diff -urN a/arch/mips/kernel/irq_cpu.c b/arch/mips/kernel/irq_cpu.c
  {
  	struct irq_domain *domain;
  
-@@ -155,7 +154,15 @@
+@@ -155,7 +154,15 @@ int __init mips_cpu_intc_init(struct dev
  				       &mips_cpu_intc_irq_domain_ops, NULL);
  	if (!domain)
  		panic("Failed to add irqdomain for MIPS CPU");

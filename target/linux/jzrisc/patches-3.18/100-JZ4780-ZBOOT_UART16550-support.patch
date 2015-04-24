@@ -1,6 +1,5 @@
-diff -urN a/arch/mips/boot/compressed/uart-16550.c b/arch/mips/boot/compressed/uart-16550.c
---- a/arch/mips/boot/compressed/uart-16550.c	2015-02-27 02:49:36.000000000 +0100
-+++ b/arch/mips/boot/compressed/uart-16550.c	2015-04-24 22:02:18.600398904 +0200
+--- a/arch/mips/boot/compressed/uart-16550.c
++++ b/arch/mips/boot/compressed/uart-16550.c
 @@ -17,7 +17,7 @@
  #define PORT(offset) (CKSEG1ADDR(AR7_REGS_UART0) + (4 * offset))
  #endif
