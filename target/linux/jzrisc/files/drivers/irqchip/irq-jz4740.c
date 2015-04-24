@@ -28,6 +28,7 @@
 #include <linux/seq_file.h>
 
 #include <asm/io.h>
+#include <asm/irq_cpu.h>
 #include <asm/mipsregs.h>
 #include <asm/mach-jz4740/jz4780-smp.h>
 
@@ -162,6 +163,7 @@ static int __init jz4740_intc_of_init(struct device_node *node,
 {
 	return jz47xx_intc_of_init(node, 1);
 }
+
 IRQCHIP_DECLARE(jz4740_intc, "ingenic,jz4740-intc", jz4740_intc_of_init);
 
 static int __init jz4780_intc_of_init(struct device_node *node,
@@ -169,7 +171,9 @@ static int __init jz4780_intc_of_init(struct device_node *node,
 {
 	return jz47xx_intc_of_init(node, 2);
 }
+
 IRQCHIP_DECLARE(jz4780_intc, "ingenic,jz4780-intc", jz4780_intc_of_init);
+IRQCHIP_DECLARE(cpu_intc, "mti,cpu-interrupt-controller", mips_cpu_irq_of_init);
 
 #ifdef CONFIG_DEBUG_FS
 
