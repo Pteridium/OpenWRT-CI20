@@ -1,0 +1,12 @@
+diff -urN a/arch/mips/boot/compressed/uart-16550.c b/arch/mips/boot/compressed/uart-16550.c
+--- a/arch/mips/boot/compressed/uart-16550.c	2015-02-27 02:49:36.000000000 +0100
++++ b/arch/mips/boot/compressed/uart-16550.c	2015-04-24 22:02:18.600398904 +0200
+@@ -17,7 +17,7 @@
+ #define PORT(offset) (CKSEG1ADDR(AR7_REGS_UART0) + (4 * offset))
+ #endif
+ 
+-#ifdef CONFIG_MACH_JZ4740
++#ifdef (CONFIG_MACH_JZ4740) || defined (CONFIG_MACH_JZ4780)
+ #include <asm/mach-jz4740/base.h>
+ #define PORT(offset) (CKSEG1ADDR(JZ4740_UART0_BASE_ADDR) + (4 * offset))
+ #endif
