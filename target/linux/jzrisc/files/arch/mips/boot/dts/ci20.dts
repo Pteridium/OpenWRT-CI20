@@ -101,13 +101,13 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pins_msc1_pd>;
 	vmmc-supply = <&wifi_power>;
-};
+};*/
 
 &ehci {
 	ingenic,vbus-gpio = <&gpf 15 0>;
 };
 
-&ohci {
+/*&ohci {
 	ingenic,vbus-gpio = <&gpf 15 0>;
 };*/
 

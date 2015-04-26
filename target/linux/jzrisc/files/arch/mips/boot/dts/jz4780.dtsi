@@ -611,7 +611,7 @@
 
 		};
 
-/*		ehci: jz4780-ehci@0x13490000 {
+		ehci: jz4780-ehci@0x13490000 {
 			compatible = "ingenic,jz4780-ehci";
 			reg = <0x13490000 0x10000>;
 
@@ -619,9 +619,10 @@
 			interrupts = <20>;
 
 			clocks = <&cgu JZ4780_CLK_UHC>;
+			clock-names = "uhc";
 		};
 
-		ohci: jz4780-ohci@0x134a0000 {
+/*		ohci: jz4780-ohci@0x134a0000 {
 			compatible = "ingenic,jz4780-ohci";
 			reg = <0x134a0000 0x10000>;
 

@@ -1,0 +1,32 @@
+diff -urN a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+--- a/drivers/usb/host/Kconfig	2015-02-27 02:49:36.000000000 +0100
++++ b/drivers/usb/host/Kconfig	2015-04-25 20:44:07.264026936 +0200
+@@ -217,6 +217,17 @@
+          This driver enables support for the internal USB Host Controllers
+          found in NVIDIA Tegra SoCs. The controllers are EHCI compliant.
+ 
++config USB_EHCI_JZ4780
++       tristate "Ingenic jz4780 HCD support"
++       depends on MACH_JZ4780
++       help
++         This driver enables support for the internal EHCI compliant USB
++         host controller found in the Ingenic jz4780 SoC.
++         The EHCI controller provides support for USB 2.0 devices, but has
++         no root-hub transaction translator so you are likely to want to
++         enable support for the OHCI controller too in order to use USB
++         1.x devices.
++
+ config USB_EHCI_HCD_PPC_OF
+ 	bool "EHCI support for PPC USB controller on OF platform bus"
+ 	depends on PPC_OF
+diff -urN a/drivers/usb/host/Makefile b/drivers/usb/host/Makefile
+--- a/drivers/usb/host/Makefile	2015-02-27 02:49:36.000000000 +0100
++++ b/drivers/usb/host/Makefile	2015-04-25 20:44:48.048258516 +0200
+@@ -43,6 +43,7 @@
+ obj-$(CONFIG_USB_EHCI_HCD_AT91) += ehci-atmel.o
+ obj-$(CONFIG_USB_EHCI_MSM)	+= ehci-msm.o
+ obj-$(CONFIG_USB_EHCI_TEGRA)	+= ehci-tegra.o
++obj-$(CONFIG_USB_EHCI_JZ4780)	+= ehci-jz4780.o
+ obj-$(CONFIG_USB_W90X900_EHCI)	+= ehci-w90x900.o
+ 
+ obj-$(CONFIG_USB_OXU210HP_HCD)	+= oxu210hp-hcd.o
