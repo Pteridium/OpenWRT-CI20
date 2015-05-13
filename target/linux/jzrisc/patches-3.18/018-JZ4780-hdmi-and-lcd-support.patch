@@ -1,0 +1,20 @@
+diff -urN a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+--- a/drivers/gpu/drm/Kconfig	2015-02-27 02:49:36.000000000 +0100
++++ b/drivers/gpu/drm/Kconfig	2015-04-30 11:09:45.633739260 +0200
+@@ -200,3 +200,5 @@
+ source "drivers/gpu/drm/panel/Kconfig"
+ 
+ source "drivers/gpu/drm/sti/Kconfig"
++
++source "drivers/gpu/drm/jz4780/Kconfig"
+diff -urN a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+--- a/drivers/gpu/drm/Makefile	2015-02-27 02:49:36.000000000 +0100
++++ b/drivers/gpu/drm/Makefile	2015-04-30 11:10:18.801511834 +0200
+@@ -62,6 +62,7 @@
+ obj-$(CONFIG_DRM_MSM) += msm/
+ obj-$(CONFIG_DRM_TEGRA) += tegra/
+ obj-$(CONFIG_DRM_STI) += sti/
++obj-$(CONFIG_DRM_JZ4780) += jz4780/
+ obj-y			+= i2c/
+ obj-y			+= panel/
+ obj-y			+= bridge/
