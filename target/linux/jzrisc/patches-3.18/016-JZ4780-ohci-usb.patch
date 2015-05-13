@@ -1,0 +1,12 @@
+diff -urN a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c
+--- a/drivers/usb/host/ohci-hcd.c	2015-02-27 02:49:36.000000000 +0100
++++ b/drivers/usb/host/ohci-hcd.c	2015-04-26 12:12:08.950109835 +0200
+@@ -1244,7 +1244,7 @@
+ #define TMIO_OHCI_DRIVER	ohci_hcd_tmio_driver
+ #endif
+ 
+-#ifdef CONFIG_MACH_JZ4740
++#if defined(CONFIG_MACH_JZ4740) || defined(CONFIG_MACH_JZ4780)
+ #include "ohci-jz4740.c"
+ #define PLATFORM_DRIVER	ohci_hcd_jz4740_driver
+ #endif
