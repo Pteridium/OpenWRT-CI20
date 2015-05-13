@@ -1,0 +1,73 @@
+diff -urN a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+--- a/sound/soc/codecs/Kconfig	2015-02-27 02:49:36.000000000 +0100
++++ b/sound/soc/codecs/Kconfig	2015-04-29 13:14:25.468438392 +0200
+@@ -63,6 +63,7 @@
+ 	select SND_SOC_ES8328_I2C if I2C
+ 	select SND_SOC_ISABELLE if I2C
+ 	select SND_SOC_JZ4740_CODEC
++	select SND_SOC_JZ4780_CODEC if SOC_JZ4780
+ 	select SND_SOC_LM4857 if I2C
+ 	select SND_SOC_LM49453 if I2C
+ 	select SND_SOC_MAX98088 if I2C
+@@ -390,6 +391,9 @@
+ 	select REGMAP_MMIO
+ 	tristate
+ 
++config SND_SOC_JZ4780_CODEC
++	tristate
++
+ config SND_SOC_L3
+        tristate
+ 
+diff -urN a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+--- a/sound/soc/codecs/Makefile	2015-02-27 02:49:36.000000000 +0100
++++ b/sound/soc/codecs/Makefile	2015-04-29 13:15:23.760752038 +0200
+@@ -55,6 +55,7 @@
+ snd-soc-es8328-spi-objs := es8328-spi.o
+ snd-soc-isabelle-objs := isabelle.o
+ snd-soc-jz4740-codec-objs := jz4740.o
++snd-soc-jz4780-codec-objs := jz4780.o
+ snd-soc-l3-objs := l3.o
+ snd-soc-lm4857-objs := lm4857.o
+ snd-soc-lm49453-objs := lm49453.o
+@@ -231,6 +232,7 @@
+ obj-$(CONFIG_SND_SOC_ES8328_SPI)+= snd-soc-es8328-spi.o
+ obj-$(CONFIG_SND_SOC_ISABELLE)	+= snd-soc-isabelle.o
+ obj-$(CONFIG_SND_SOC_JZ4740_CODEC)	+= snd-soc-jz4740-codec.o
++obj-$(CONFIG_SND_SOC_JZ4780_CODEC)	+= snd-soc-jz4780-codec.o
+ obj-$(CONFIG_SND_SOC_L3)	+= snd-soc-l3.o
+ obj-$(CONFIG_SND_SOC_LM4857)	+= snd-soc-lm4857.o
+ obj-$(CONFIG_SND_SOC_LM49453)   += snd-soc-lm49453.o
+diff -urN a/sound/soc/jz4740/Kconfig b/sound/soc/jz4740/Kconfig
+--- a/sound/soc/jz4740/Kconfig	2015-02-27 02:49:36.000000000 +0100
++++ b/sound/soc/jz4740/Kconfig	2015-04-29 13:07:44.922331830 +0200
+@@ -1,6 +1,6 @@
+ config SND_JZ4740_SOC
+ 	tristate "SoC Audio for Ingenic JZ4740 SoC"
+-	depends on MACH_JZ4740 || COMPILE_TEST
++	depends on MACH_JZ4740 || MACH_JZ4780 || COMPILE_TEST
+ 	select SND_SOC_GENERIC_DMAENGINE_PCM
+ 	help
+ 	  Say Y or M if you want to add support for codecs attached to
+diff -urN a/sound/soc/Kconfig b/sound/soc/Kconfig
+--- a/sound/soc/Kconfig	2015-02-27 02:49:36.000000000 +0100
++++ b/sound/soc/Kconfig	2015-04-29 13:10:25.111163100 +0200
+@@ -41,6 +41,7 @@
+ source "sound/soc/dwc/Kconfig"
+ source "sound/soc/fsl/Kconfig"
+ source "sound/soc/jz4740/Kconfig"
++source "sound/soc/jz4780/Kconfig"
+ source "sound/soc/nuc900/Kconfig"
+ source "sound/soc/omap/Kconfig"
+ source "sound/soc/kirkwood/Kconfig"
+diff -urN a/sound/soc/Makefile b/sound/soc/Makefile
+--- a/sound/soc/Makefile	2015-02-27 02:49:36.000000000 +0100
++++ b/sound/soc/Makefile	2015-04-29 13:10:52.843308631 +0200
+@@ -18,6 +18,7 @@
+ obj-$(CONFIG_SND_SOC)	+= dwc/
+ obj-$(CONFIG_SND_SOC)	+= fsl/
+ obj-$(CONFIG_SND_SOC)	+= jz4740/
++obj-$(CONFIG_SND_SOC)	+= jz4780/
+ obj-$(CONFIG_SND_SOC)	+= intel/
+ obj-$(CONFIG_SND_SOC)	+= mxs/
+ obj-$(CONFIG_SND_SOC)	+= nuc900/
