@@ -11,11 +11,11 @@
 		       0x30000000 0x30000000>;
 	};
 
-/*	audio: audio-ci20 {
+	audio: audio-ci20 {
 		compatible = "ingenic,ci20-audio";
 		ingenic,i2s-controller = <&i2s>;
 		ingenic,codec = <&codec>;
-	};*/
+	};
 
 	eth0_power: fixedregulator@0 {
 		compatible = "regulator-fixed";
@@ -24,7 +24,7 @@
 		enable-active-high;
 	};
 
-/*	hdmi_power: fixedregulator@1 {
+	hdmi_power: fixedregulator@1 {
 		compatible = "regulator-fixed";
 		regulator-name = "hdmi_power";
 		gpio = <&gpa 25 GPIO_ACTIVE_LOW>;
@@ -32,7 +32,7 @@
 		regulator-always-on;
 	};
 
-	wifi_power: fixedregulator@2 {
+/*	wifi_power: fixedregulator@2 {
 		compatible = "regulator-fixed";
 		regulator-name = "wifi_power_gpio";
 		gpio = <&gpb 19 0>;
@@ -107,9 +107,9 @@
 	ingenic,vbus-gpio = <&gpf 15 0>;
 };
 
-/*&ohci {
+&ohci {
 	ingenic,vbus-gpio = <&gpf 15 0>;
-};*/
+};
 
 &nemc {
 	/*

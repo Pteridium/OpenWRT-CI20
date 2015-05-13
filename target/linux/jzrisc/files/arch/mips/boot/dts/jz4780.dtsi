@@ -89,7 +89,7 @@
 			interrupts = <32>;
 		};
 
-/*		i2s: i2s@10020000 {
+		i2s: i2s@10020000 {
 			compatible = "ingenic,jz4780-i2s";
 			reg = <0x10020000 0x94>;
 
@@ -108,7 +108,7 @@
 			clocks = <&cgu JZ4780_CLK_I2SPLL>;
 			clock-names = "i2s";
 
-		};*/
+		};
 
 		pinctrl@0x10010000 {
 			compatible = "ingenic,jz4780-pinctrl";
@@ -514,7 +514,7 @@
 		ranges = <>;
 
 
-/*		lcd: jz4780-lcdk@0x13050000 {
+		lcd: jz4780-lcdk@0x13050000 {
 			compatible = "ingenic,jz4780-lcd";
 			reg = <0x13050000 0x1800>;
 
@@ -542,7 +542,7 @@
 			interrupts = <3>;
 
 			ddc = <&i2c4>;
-		}; */
+		};
 
 
 		nemc: nemc@13410000 {
@@ -622,7 +622,7 @@
 			clock-names = "uhc";
 		};
 
-/*		ohci: jz4780-ohci@0x134a0000 {
+		ohci: jz4780-ohci@0x134a0000 {
 			compatible = "ingenic,jz4780-ohci";
 			reg = <0x134a0000 0x10000>;
 
@@ -631,7 +631,7 @@
 
 			clocks = <&cgu JZ4780_CLK_UHC>;
 			clock-names = "uhc";
-		}; */
+		};
 
 		bch: bch@134d0000 {
 			compatible = "ingenic,jz4780-bch";
