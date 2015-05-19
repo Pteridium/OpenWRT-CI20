@@ -230,6 +230,26 @@ endef
 
 $(eval $(call KernelPackage,sound-soc-gw_avila))
 
+define KernelPackage/sound-soc-jz4780
+  TITLE:=JZ4780 SoC sound support
+  KCONFIG:=\
+	CONFIG_SND_JZ4740_SOC \
+	CONFIG_SND_JZ4740_SOC_I2S \
+	CONFIG_SND_JZ4780_SOC_CI20
+  FILES:= \
+	$(LINUX_DIR)/sound/soc/jz4740/snd-soc-jz4740-i2s.ko \
+	$(LINUX_DIR)/sound/soc/jz4780/ci20.ko \
+	$(LINUX_DIR)/sound/soc/codecs/snd-soc-jz4780-codec.ko
+  AUTOLOAD:=$(call AutoLoad,56,snd-soc-jz4740-i2s ci20 jz4780)
+  DEPENDS:=@TARGET_jzrisc +kmod-sound-soc-core
+  $(call AddDepends/sound)
+endef
+
+define KernelPackage/sound-soc-jz4780/description
+ Support for Ingenic JZ4780 Platform sound
+endef
+
+$(eval $(call KernelPackage,sound-soc-jz4780))
 
 define KernelPackage/pcspkr
   DEPENDS:=@TARGET_x86 +kmod-input-core
