@@ -9,9 +9,9 @@ include $(TOPDIR)/rules.mk
 ARCH:=mipsel
 BOARD:=jzrisc
 BOARDNAME:=JZ47XX
-FEATURES:=targz usb ramdisk
+FEATURES:=targz usb ramdisk fpu audio nand ubifs
 SUBTARGETS:=ci20
-CPU_TYPE:=mips32r2
+CPU_TYPE:=jzrisc
 
 #KERNEL_PATCHVER:=4.0
 KERNEL_PATCHVER:=3.18
