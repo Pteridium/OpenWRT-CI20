@@ -20,7 +20,7 @@
  	int iosize;
  	int i;
  	u32 id_val;
-+	int reset_gpio;
++	int reset_gpios;
 +	enum of_gpio_flags flags;
 +	struct regulator *power;
 +
@@ -32,19 +32,19 @@
 +		dev_dbg(dev, "regulator enabled\n");
 +	}
 +
-+	reset_gpio = of_get_named_gpio_flags(dev->of_node, "reset-gpio", 0,
++	reset_gpios = of_get_named_gpio_flags(dev->of_node, "reset-gpios", 0,
 +					     &flags);
-+	if (gpio_is_valid(reset_gpio)) {
-+		ret = devm_gpio_request_one(dev, reset_gpio, flags,
++	if (gpio_is_valid(reset_gpios)) {
++		ret = devm_gpio_request_one(dev, reset_gpios, flags,
 +					    "dm9000_reset");
 +		if (ret) {
 +			dev_err(dev, "failed to request reset gpio %d: %d\n",
-+				reset_gpio, ret);
++				reset_gpios, ret);
 +		} else {
-+			gpio_direction_output(reset_gpio, 0);
++			gpio_direction_output(reset_gpios, 0);
 +			/* According to manual PWRST# Low Period Min 1ms */
 +			msleep(2);
-+			gpio_direction_output(reset_gpio, 1);
++			gpio_direction_output(reset_gpios, 1);
 +			/* Needs 3ms to read eeprom when PWRST is deasserted */
 +			msleep(4);
 +		}
